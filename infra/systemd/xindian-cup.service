@@ -1,0 +1,18 @@
+# systemd unit for Xindian_Cup FastAPI service.
+
+[Unit]
+Description=Xindian_Cup FastAPI application
+After=network.target
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+WorkingDirectory=/opt/xindian-cup/current
+EnvironmentFile=/opt/xindian-cup/shared/.env
+ExecStart=/opt/xindian-cup/venv/bin/uvicorn app.main:app --host 127.0.0.1 --port 8000
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

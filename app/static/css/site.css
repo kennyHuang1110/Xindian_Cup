@@ -1,0 +1,100 @@
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: "Segoe UI", sans-serif;
+    background: linear-gradient(135deg, #f7fafc 0%, #d9e8f5 100%);
+    color: #17324d;
+}
+
+.hero {
+    display: grid;
+    place-items: center;
+    min-height: 100vh;
+    text-align: center;
+    padding: 2rem;
+}
+
+.eyebrow {
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    color: #4a6a88;
+}
+
+h1 {
+    margin: 0.5rem 0;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+}
+
+.subtitle {
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+.page-shell {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem 4rem;
+}
+
+.page-hero {
+    margin-bottom: 2rem;
+}
+
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.25rem;
+}
+
+.team-card {
+    background: rgba(255, 255, 255, 0.92);
+    border: 1px solid rgba(23, 50, 77, 0.08);
+    border-radius: 20px;
+    padding: 1.25rem;
+    box-shadow: 0 20px 45px rgba(23, 50, 77, 0.08);
+}
+
+.team-card-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}
+
+.team-card h2,
+.member-section h3 {
+    margin: 0;
+}
+
+.team-meta,
+.empty-state {
+    color: #4a6a88;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 0.35rem 0.75rem;
+    border-radius: 999px;
+    background: #d8e9d0;
+    color: #285430;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+}
+
+.member-list {
+    list-style: none;
+    margin: 0.75rem 0 0;
+    padding: 0;
+    display: grid;
+    gap: 0.75rem;
+}
+
+.member-item {
+    display: grid;
+    gap: 0.2rem;
+    padding: 0.8rem 0.9rem;
+    background: #f6f9fc;
+    border-radius: 14px;
+}
