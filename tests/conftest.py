@@ -10,6 +10,7 @@ from sqlalchemy.orm import Session, sessionmaker
 
 from app.api.deps import get_db
 from app.core.database import Base, create_db_engine
+from app.core.config import get_settings
 from app.main import app
 from app.models import AuditLog, Blacklist, EmailVerification, Member, Team
 
@@ -41,3 +42,10 @@ def client() -> Generator[TestClient, None, None]:
     engine.dispose()
     if db_path.exists():
         db_path.unlink()
+
+
+@pytest.fixture()
+def admin_headers() -> dict[str, str]:
+    """Return headers for admin-protected endpoints."""
+    settings = get_settings()
+    return {"X-Admin-Token": settings.admin_api_token}

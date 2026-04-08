@@ -79,9 +79,8 @@ def send_email_verification(
     db.add(verification)
     db.commit()
     return EmailVerificationIssueResponse(
-        message="Verification token created for MVP.",
-        verification_token=raw_token,
-        verification_url=f"{settings.app_base_url}/api/captain/verify-email?token={raw_token}",
+        message="Verification request created. Deliver the verification link via email service.",
+        expires_at=expires_at,
     )
 
 
