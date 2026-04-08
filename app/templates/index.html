@@ -1,16 +1,149 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-Hant">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{{ app_name }}</title>
-    <link rel="stylesheet" href="{{ url_for('static', path='css/site.css') }}" />
+    <title>{{ app_name }} | 新店盃排球賽</title>
+    <meta
+        name="description"
+        content="Xindian_Cup 新店盃排球賽報名與公告平台，提供活動資訊、公告名單與隊長管理入口。"
+    />
+    <link rel="stylesheet" href="{{ url_for('static', path='css/style.css') }}" />
 </head>
-<body>
-    <main class="hero">
-        <p class="eyebrow">Xindian_Cup</p>
-        <h1>{{ app_name }} Running</h1>
-        <p class="subtitle">FastAPI + Jinja2 MVP skeleton is ready.</p>
+<body class="landing-page">
+    <header class="site-header">
+        <div class="shell header-inner">
+            <a class="brand" href="/">Xindian_Cup</a>
+            <nav class="header-nav" aria-label="主要導覽">
+                <a href="#info">活動資訊</a>
+                <a href="#steps">流程說明</a>
+                <a href="#notes">注意事項</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero-section">
+            <div class="shell hero-grid">
+                <div class="hero-copy">
+                    <p class="hero-kicker">校友競賽活動網站</p>
+                    <h1>{{ hero_title }}</h1>
+                    <p class="hero-subtitle">{{ hero_subtitle }}</p>
+                    <p class="hero-description">
+                        集中整理賽事公告、隊伍名單與隊長管理流程，讓新店盃排球賽的資訊更新更清楚，
+                        報名流程更順暢，也為後續 LINE 通知與名單維護建立穩定入口。
+                    </p>
+                    <div class="hero-actions">
+                        <a class="button button-primary" href="/public/teams">查看公告名單</a>
+                        <a class="button button-secondary" href="/captain/manage">隊長入口</a>
+                    </div>
+                </div>
+
+                <div class="hero-panel" aria-label="活動視覺資訊">
+                    <div class="hero-panel-top">
+                        <span class="panel-chip">Volleyball</span>
+                        <span class="panel-chip panel-chip-muted">Alumni Event</span>
+                    </div>
+                    <div class="score-card">
+                        <div>
+                            <p class="score-label">活動定位</p>
+                            <strong>新店高中校友盃</strong>
+                        </div>
+                        <div>
+                            <p class="score-label">平台功能</p>
+                            <strong>公告 / 名單 / 驗證</strong>
+                        </div>
+                    </div>
+                    <div class="court-lines" aria-hidden="true">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                    <div class="ball-mark" aria-hidden="true"></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="info-section" id="info">
+            <div class="shell">
+                <div class="section-heading">
+                    <p class="section-kicker">活動資訊</p>
+                    <h2>比賽資訊與網站入口整合在同一個首頁</h2>
+                </div>
+                <div class="card-grid">
+                    <article class="info-card">
+                        <h3>活動公告</h3>
+                        <p>集中發布賽程更新、名單調整與重要提醒，方便所有隊伍同步掌握最新資訊。</p>
+                    </article>
+                    <article class="info-card">
+                        <h3>隊伍名單</h3>
+                        <p>公開顯示啟用中的隊伍與隊員資訊，作為公告頁與現場核對的基礎資料。</p>
+                    </article>
+                    <article class="info-card">
+                        <h3>隊長管理</h3>
+                        <p>隊長完成驗證後即可登入入口，維護本隊隊員名單並更新報名資料。</p>
+                    </article>
+                    <article class="info-card">
+                        <h3>往年照片</h3>
+                        <p>保留未來擴充相簿與活動回顧的位置，讓網站持續累積比賽記憶與故事。</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="steps-section" id="steps">
+            <div class="shell">
+                <div class="section-heading">
+                    <p class="section-kicker">流程說明</p>
+                    <h2>三個步驟完成隊伍建立與名單維護</h2>
+                </div>
+                <div class="step-grid">
+                    <article class="step-card">
+                        <span class="step-number">01</span>
+                        <h3>隊長先聯絡主辦</h3>
+                        <p>由主辦先確認隊伍與隊長資料，統一建立隊伍，避免重複或錯誤報名。</p>
+                    </article>
+                    <article class="step-card">
+                        <span class="step-number">02</span>
+                        <h3>完成驗證後建立隊伍</h3>
+                        <p>隊長收到驗證資訊並完成 email 驗證後，即可啟用隊伍與登入管理功能。</p>
+                    </article>
+                    <article class="step-card">
+                        <span class="step-number">03</span>
+                        <h3>隊長新增隊員並更新名單</h3>
+                        <p>登入後可新增隊員資料、維護名單狀態，讓公告頁保持最新內容。</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="notes-section" id="notes">
+            <div class="shell notes-panel">
+                <div class="section-heading">
+                    <p class="section-kicker">注意事項</p>
+                    <h2>第一版平台先以資訊正確與流程清楚為優先</h2>
+                </div>
+                <ul class="note-list">
+                    <li>隊伍需由主辦建立，網站不提供自行建立隊伍。</li>
+                    <li>隊長需完成 email 驗證，才可使用隊員管理功能。</li>
+                    <li>電話欄位為選填，填寫時請確認資料正確。</li>
+                    <li>公告頁僅顯示必要資訊，不公開敏感個資。</li>
+                </ul>
+            </div>
+        </section>
     </main>
+
+    <footer class="site-footer">
+        <div class="shell footer-inner">
+            <div>
+                <strong>Xindian_Cup</strong>
+                <p>新店盃排球賽報名與公告平台</p>
+            </div>
+            <p>聯絡資訊與主辦單位資訊將於後續版本補上。</p>
+        </div>
+    </footer>
+
+    <button class="scroll-top" type="button" aria-label="回到頁首" data-scroll-top>Top</button>
+    <script src="{{ url_for('static', path='js/main.js') }}"></script>
 </body>
 </html>

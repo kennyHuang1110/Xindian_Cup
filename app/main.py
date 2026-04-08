@@ -22,10 +22,24 @@ templates = Jinja2Templates(directory="app/templates")
 
 @app.get("/", response_class=HTMLResponse, tags=["pages"])
 async def index(request: Request) -> HTMLResponse:
-    """Render the basic landing page for health checks and smoke tests."""
+    """Render the public event landing page."""
     return templates.TemplateResponse(
         request,
         "index.html",
+        {
+            "app_name": settings.app_name,
+            "hero_title": "Xindian_Cup",
+            "hero_subtitle": "新店盃排球賽報名與公告平台",
+        },
+    )
+
+
+@app.get("/captain/manage", response_class=HTMLResponse, tags=["pages"])
+async def captain_manage(request: Request) -> HTMLResponse:
+    """Render a temporary captain entry page placeholder."""
+    return templates.TemplateResponse(
+        request,
+        "captain_manage.html",
         {"app_name": settings.app_name},
     )
 

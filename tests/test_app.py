@@ -9,7 +9,7 @@ def test_health(client) -> None:
 def test_index(client) -> None:
     response = client.get("/")
     assert response.status_code == 200
-    assert "Xindian_Cup Running" in response.text
+    assert "新店盃排球賽報名與公告平台" in response.text
 
 
 def test_admin_create_team_sets_pending_status(client) -> None:
