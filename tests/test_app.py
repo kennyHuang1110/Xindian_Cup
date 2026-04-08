@@ -38,7 +38,7 @@ def test_public_teams_page_shows_active_team_and_members(client) -> None:
             "captain_name": "Bob",
             "captain_email": "bob@example.com",
             "captain_phone": None,
-            "captain_line_user_id": None,
+            "captain_line_user_id": "line-bob",
         },
     )
     team_id = team_response.json()["id"]
@@ -60,11 +60,23 @@ def test_public_teams_page_shows_active_team_and_members(client) -> None:
             "created_by": 1,
         },
     )
-    assert member_response.status_code == 403
+    assert member_response.status_code == 401
 
     verify_response = client.get(f"/api/captain/verify-email?token={verification_token}")
     assert verify_response.status_code == 200
     assert verify_response.json()["status"] == "verified"
+
+    line_entry_response = client.post(
+        "/api/auth/line-entry",
+        json={"team_id": team_id, "line_user_id": "line-bob"},
+    )
+    assert line_entry_response.status_code == 200
+    session_token = line_entry_response.json()["session_token"]
+    headers = {"Authorization": f"Bearer {session_token}"}
+
+    me_response = client.get("/api/captain/me", headers=headers)
+    assert me_response.status_code == 200
+    assert me_response.json()["team_name"] == "Active Team"
 
     member_response = client.post(
         "/api/captain/members",
@@ -75,8 +87,13 @@ def test_public_teams_page_shows_active_team_and_members(client) -> None:
             "is_alumni": True,
             "created_by": 1,
         },
+        headers=headers,
     )
     assert member_response.status_code == 201
+
+    list_members_response = client.get("/api/captain/members", headers=headers)
+    assert list_members_response.status_code == 200
+    assert list_members_response.json()[0]["name"] == "Charlie"
 
     api_response = client.get("/api/public/teams")
     assert api_response.status_code == 200
@@ -86,3 +103,30 @@ def test_public_teams_page_shows_active_team_and_members(client) -> None:
     assert page_response.status_code == 200
     assert "Active Team" in page_response.text
     assert "Charlie" in page_response.text
+
+
+def test_line_entry_rejects_mismatched_line_user(client) -> None:
+    team_response = client.post(
+        "/api/admin/teams",
+        json={
+            "team_name": "Mismatch Team",
+            "captain_name": "Dana",
+            "captain_email": "dana@example.com",
+            "captain_phone": None,
+            "captain_line_user_id": "line-dana",
+        },
+    )
+    team_id = team_response.json()["id"]
+
+    verification_response = client.post(
+        "/api/captain/send-email-verification",
+        json={"team_id": team_id, "email": "dana@example.com"},
+    )
+    verification_token = verification_response.json()["verification_token"]
+    client.get(f"/api/captain/verify-email?token={verification_token}")
+
+    line_entry_response = client.post(
+        "/api/auth/line-entry",
+        json={"team_id": team_id, "line_user_id": "line-someone-else"},
+    )
+    assert line_entry_response.status_code == 403

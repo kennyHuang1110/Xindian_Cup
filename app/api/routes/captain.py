@@ -1,7 +1,6 @@
 """Captain-facing endpoints guarded by verification state."""
 
 from datetime import datetime, timedelta, timezone
-from secrets import token_urlsafe
 
 from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlalchemy import select
@@ -19,7 +18,8 @@ from app.schemas.email_verification import (
 )
 from app.schemas.member import MemberCreate, MemberRead
 from app.schemas.team import CaptainProfileRead
-from app.services.security import hash_token
+from app.services.auth import get_current_captain_session
+from app.services.security import generate_token, hash_token
 
 router = APIRouter()
 settings = get_settings()
@@ -64,7 +64,12 @@ def send_email_verification(
     expires_at = datetime.now(timezone.utc) + timedelta(
         minutes=settings.email_verification_expire_minutes
     )
-    raw_token = token_urlsafe(24)
+    if team.captain_email != payload.email:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Verification email must match the captain email.",
+        )
+    raw_token = generate_token(24)
     verification = EmailVerification(
         team_id=team.id,
         email=payload.email,
@@ -105,23 +110,41 @@ def verify_email(
 
 
 @router.get("/me", response_model=CaptainProfileRead)
-def get_me(team_id: int = Query(...), db: Session = Depends(get_db)) -> Team:
+def get_me(
+    current: tuple[object, Team] = Depends(get_current_captain_session),
+    db: Session = Depends(get_db),
+) -> Team:
     """Return the captain-facing team profile."""
-    _ensure_verified(db, team_id)
-    return _get_team_or_404(db, team_id)
+    _, team = current
+    _ensure_verified(db, team.id)
+    return _get_team_or_404(db, team.id)
 
 
 @router.get("/members", response_model=list[MemberRead])
-def list_members(team_id: int = Query(...), db: Session = Depends(get_db)) -> list[Member]:
+def list_members(
+    current: tuple[object, Team] = Depends(get_current_captain_session),
+    db: Session = Depends(get_db),
+) -> list[Member]:
     """List members for a verified captain."""
-    _ensure_verified(db, team_id)
-    stmt = select(Member).where(Member.team_id == team_id).order_by(Member.created_at, Member.id)
+    _, team = current
+    _ensure_verified(db, team.id)
+    stmt = select(Member).where(Member.team_id == team.id).order_by(Member.created_at, Member.id)
     return list(db.scalars(stmt).all())
 
 
 @router.post("/members", response_model=MemberRead, status_code=status.HTTP_201_CREATED)
-def create_member(payload: MemberCreate, db: Session = Depends(get_db)) -> Member:
+def create_member(
+    payload: MemberCreate,
+    current: tuple[object, Team] = Depends(get_current_captain_session),
+    db: Session = Depends(get_db),
+) -> Member:
     """Create a member entry for a verified team captain."""
+    _, team = current
+    if payload.team_id != team.id:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Captain can only manage members for their own team.",
+        )
     _get_team_or_404(db, payload.team_id)
     _ensure_verified(db, payload.team_id)
     member = Member(**payload.model_dump())
