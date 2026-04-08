@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ app_name }} | 比賽章程</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='css/style.css') }}" />
+</head>
+<body class="landing-page">
+    <header class="site-header">
+        <div class="shell header-inner">
+            <a class="brand" href="/">Xindian_Cup</a>
+            <nav class="header-nav" aria-label="主要導覽">
+                <a href="/">首頁</a>
+                <a href="/history/photos">歷屆照片</a>
+                <a href="/public/teams">公告名單</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="page-main">
+        <section class="page-banner">
+            <div class="shell">
+                <p class="section-kicker">比賽章程</p>
+                <h1>{{ charter.title }}</h1>
+                <p class="page-intro">
+                    本頁內容直接來自專案根目錄的 `章程.txt`，你之後更新原始文字檔，網站內容就能跟著同步。
+                </p>
+            </div>
+        </section>
+
+        <section class="page-section">
+            <div class="shell charter-layout">
+                {% for section in charter.sections %}
+                    <article class="charter-card">
+                        <h2>{{ section["heading"] }}</h2>
+                        <div class="charter-content">
+                            {% for item in section["items"] %}
+                                <p>{{ item }}</p>
+                            {% endfor %}
+                        </div>
+                    </article>
+                {% endfor %}
+            </div>
+        </section>
+    </main>
+</body>
+</html>
