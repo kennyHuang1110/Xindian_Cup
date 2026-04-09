@@ -4,7 +4,7 @@
 
 {% block header_inner %}
 <h1>公告名單</h1>
-<p>公開顯示已建立的隊伍與隊員資料，作為主辦公告與賽前確認的基礎頁面。</p>
+<p>顯示已啟用隊伍與成員資訊，方便外部查閱目前公告中的報名名單。</p>
 {% endblock %}
 
 {% block main %}
@@ -22,7 +22,7 @@
                         <span class="dimension-status">{{ team.status.value }}</span>
                     </header>
                     <div class="dimension-member-block">
-                        <h4>隊員資料</h4>
+                        <h4>隊員名單</h4>
                         {% if team.members %}
                             <ul class="dimension-member-list">
                                 {% for member in team.members %}
@@ -41,7 +41,7 @@
             {% endfor %}
         </div>
     {% else %}
-        <p>目前尚未有公開隊伍，後續建立後會顯示在這裡。</p>
+        <p>目前尚無已公告隊伍，之後可再回來查看最新名單。</p>
     {% endif %}
 </article>
 {% endblock %}

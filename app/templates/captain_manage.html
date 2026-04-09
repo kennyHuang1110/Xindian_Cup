@@ -5,9 +5,9 @@
 {% block header_inner %}
 <h1>隊長管理</h1>
 {% if team %}
-<p>{{ team.team_name }} 的管理頁面。先完成 LINE 驗證，再依狀態進行 email 驗證與隊員維護。</p>
+<p>{{ team.team_name }} 隊長已完成 LINE 驗證，可在這裡確認狀態、寄送 Email 驗證並維護名單。</p>
 {% else %}
-<p>只有完成 LINE 驗證的隊長才能開啟此頁面。</p>
+<p>請先透過 LINE 驗證入口取得隊長登入狀態，再進入管理頁。</p>
 {% endif %}
 {% endblock %}
 
@@ -23,7 +23,7 @@
         <div class="dimension-section-card">
             <p>{{ flash_message }}</p>
             {% if verification_preview_url %}
-                <p><a href="{{ verification_preview_url }}">點這裡完成 email 驗證</a></p>
+                <p><a href="{{ verification_preview_url }}">點這裡完成 Email 驗證</a></p>
             {% endif %}
         </div>
     {% endif %}
@@ -31,22 +31,27 @@
     {% if team %}
         <div class="dimension-section-stack">
             <section class="dimension-section-card">
-                <h3>隊伍狀態</h3>
+                <h3>隊伍資訊</h3>
                 <p>隊伍名稱：{{ team.team_name }}</p>
                 <p>隊長姓名：{{ team.captain_name }}</p>
                 <p>隊長 Email：{{ team.captain_email }}</p>
                 <p>LINE 綁定：{{ captain_session.line_user_id if captain_session else "未綁定" }}</p>
-                <p>目前狀態：{{ team.status.value }}</p>
+                <p>隊伍狀態：{{ team.status.value }}</p>
                 <p>Email 驗證：{{ "已完成" if email_verified else "尚未完成" }}</p>
+                <form method="post" action="/captain/logout">
+                    <ul class="actions">
+                        <li><button type="submit" class="button">登出隊長頁</button></li>
+                    </ul>
+                </form>
             </section>
 
             {% if not email_verified %}
                 <section class="dimension-section-card">
-                    <h3>先完成 email 驗證</h3>
-                    <p>在新增隊員前，隊長必須先完成 email 驗證。建立驗證連結後，可直接點擊開發預覽連結完成驗證。</p>
+                    <h3>申請 Email 驗證</h3>
+                    <p>隊長新增隊員前，必須先完成 Email 驗證。測試環境會直接顯示驗證連結，方便你快速驗證整個流程。</p>
                     <form method="post" action="/captain/manage/send-email-verification">
                         <ul class="actions">
-                            <li><button type="submit" class="button primary">建立 email 驗證連結</button></li>
+                            <li><button type="submit" class="button primary">寄送 Email 驗證連結</button></li>
                         </ul>
                     </form>
                 </section>
@@ -84,11 +89,11 @@
                             </div>
                             <div class="field half">
                                 <input type="radio" id="is_alumni_true" name="is_alumni" value="true" checked />
-                                <label for="is_alumni_true">新店高中校友</label>
+                                <label for="is_alumni_true">是新店高中校友</label>
                             </div>
                             <div class="field half">
                                 <input type="radio" id="is_alumni_false" name="is_alumni" value="false" />
-                                <label for="is_alumni_false">非新店高中校友</label>
+                                <label for="is_alumni_false">不是新店高中校友</label>
                             </div>
                         </div>
                         <ul class="actions">
@@ -96,7 +101,7 @@
                         </ul>
                     </form>
                 {% else %}
-                    <p>請先完成 email 驗證，之後才可新增隊員。</p>
+                    <p>請先完成隊長 Email 驗證，才可新增隊員。</p>
                 {% endif %}
             </section>
         </div>

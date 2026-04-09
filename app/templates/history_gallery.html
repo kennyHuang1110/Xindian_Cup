@@ -4,7 +4,7 @@
 
 {% block header_inner %}
 <h1>歷屆照片</h1>
-<p>保留每一屆新店盃的現場紀錄，延續活動記憶與球場氛圍。</p>
+<p>依年份整理新店盃歷屆影像，保留完整畫面比例，方便回顧每一屆的比賽與合照。</p>
 {% endblock %}
 
 {% block main %}
@@ -14,7 +14,7 @@
         {% for photo in gallery_photos %}
             <figure class="dimension-gallery-card">
                 <span class="image fit dimension-gallery-image">
-                    <img src="{{ url_for('gallery', path=photo.file) }}" alt="新店盃排球賽 {{ photo.year }} 年照片" loading="lazy" />
+                    <img src="{{ url_for('gallery', path=photo.file) }}" alt="新店盃 {{ photo.year }} 年照片" loading="lazy" />
                 </span>
                 <figcaption>
                     <strong>{{ photo.year }}</strong>

@@ -1,5 +1,7 @@
 """Public endpoints exposed without captain authentication."""
 
+from pathlib import Path
+
 from fastapi import APIRouter, Depends, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
@@ -13,6 +15,16 @@ from app.schemas.team import PublicTeamDetailRead, PublicTeamRead
 router = APIRouter()
 page_router = APIRouter()
 templates = Jinja2Templates(directory="app/templates")
+BASE_DIR = Path(__file__).resolve().parents[3]
+IMG_DIR = BASE_DIR / "img"
+
+
+def _get_logo_filename() -> str:
+    """Return the event logo filename from the img directory."""
+    for path in sorted(IMG_DIR.glob("*")):
+        if path.is_file() and "標誌" in path.stem:
+            return path.name
+    return "backgroud.png"
 
 
 def _public_teams_query():
@@ -43,5 +55,5 @@ def public_teams_page(request: Request, db: Session = Depends(get_db)) -> HTMLRe
     return templates.TemplateResponse(
         request,
         "public_teams.html",
-        {"teams": teams, "app_name": "Xindian_Cup"},
+        {"teams": teams, "app_name": "Xindian_Cup", "logo_filename": _get_logo_filename()},
     )

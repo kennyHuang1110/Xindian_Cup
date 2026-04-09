@@ -24,3 +24,6 @@ Thumbs.db
 *.log
 .tmp/
 pytest-cache-files-*/
+template/
+html5up-dimension.zip
+sshk/

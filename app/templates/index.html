@@ -9,12 +9,11 @@
     <noscript><link rel="stylesheet" href="{{ url_for('static', path='dimension/assets/css/noscript.css') }}" /></noscript>
 </head>
 <body class="is-preload home-page">
-
     <div id="wrapper">
         <header id="header">
             <div class="logo">
                 <span class="image fit" style="margin:0; width:100%; height:100%; display:flex; align-items:center; justify-content:center;">
-                    <img src="{{ url_for('gallery', path='新店盃排球賽 2026 標誌.png') }}" alt="新店盃排球賽標誌" style="width:72%; height:72%; object-fit:contain;" />
+                    <img src="{{ url_for('gallery', path=logo_filename) }}" alt="新店盃排球賽標誌" style="width:72%; height:72%; object-fit:contain;" />
                 </span>
             </div>
             <div class="content">
@@ -40,10 +39,10 @@
             <article id="intro">
                 <h2 class="major">活動資訊</h2>
                 <span class="image main">
-                    <img src="{{ url_for('gallery', path='climb.jpg') }}" alt="新店盃背景" />
+                    <img src="{{ url_for('gallery', path='climb.jpg') }}" alt="新店盃首頁主視覺" />
                 </span>
-                <p>新店盃排球賽網站以公告資訊清楚、入口集中為主，讓主辦、隊長與參賽者能快速找到需要的內容。</p>
-                <p>目前整合了公告名單、隊長管理、歷屆照片與比賽章程，後續也可延伸 LINE 通知與報名維護流程。</p>
+                <p>新店盃是以校友交流為核心的小型排球賽事，整理公告名單、隊長管理與歷屆紀錄，讓報名與後續維護都更清楚。</p>
+                <p>目前網站已提供公開名單頁、隊長管理頁、Email 驗證流程與歷屆照片頁，方便在測試環境中完整演示主要操作流程。</p>
                 <ul class="actions">
                     <li><a href="/public/teams" class="button primary">查看公告名單</a></li>
                     <li><a href="/captain/manage" class="button">隊長入口</a></li>
@@ -52,9 +51,9 @@
 
             <article id="flow">
                 <h2 class="major">參賽流程</h2>
-                <p>1. 隊長先聯絡主辦，由主辦建立隊伍與基本資料。</p>
-                <p>2. 隊長完成 email 驗證後，隊伍才會正式啟用。</p>
-                <p>3. 啟用後可由隊長新增隊員並更新名單。</p>
+                <p>1. 主辦先建立隊伍與隊長資料，隊伍不可自行新增。</p>
+                <p>2. 隊長完成 LINE 驗證入口後，再進行 Email 驗證啟用隊伍。</p>
+                <p>3. 驗證完成後，隊長即可登入管理頁新增隊員與更新名單。</p>
             </article>
 
             <article id="photos">
@@ -62,23 +61,23 @@
                 <span class="image main">
                     <img src="{{ url_for('gallery', path=gallery_preview[-1].file) }}" alt="新店盃歷屆照片" />
                 </span>
-                <p>保留每一屆新店盃的現場記錄，讓網站不只是一個工具，也是一個延續活動記憶的平台。</p>
+                <p>網站已整理歷屆照片頁，依年份排列並保留完整畫面，方便回顧每一屆的現場氛圍與團體合照。</p>
                 <ul class="actions">
-                    <li><a href="/history/photos" class="button primary">前往照片頁</a></li>
+                    <li><a href="/history/photos" class="button primary">查看歷屆照片</a></li>
                 </ul>
             </article>
 
             <article id="charter">
                 <h2 class="major">比賽章程</h2>
-                <p>章程頁集中整理參賽資格、名單規範與公告方式，讓主辦與參賽者能快速對齊資訊。</p>
+                <p>章程頁會直接讀取根目錄的 `章程.txt`，方便你後續只維護一份原始文本，就能同步更新網站顯示內容。</p>
                 <ul>
                     <li>隊伍需由主辦建立</li>
-                    <li>隊長需完成 email 驗證</li>
+                    <li>隊長需完成 Email 驗證</li>
                     <li>電話欄位為選填</li>
                     <li>公告頁不公開敏感個資</li>
                 </ul>
                 <ul class="actions">
-                    <li><a href="/charter" class="button primary">閱讀完整章程</a></li>
+                    <li><a href="/charter" class="button primary">閱讀比賽章程</a></li>
                 </ul>
             </article>
         </div>
@@ -95,6 +94,5 @@
     <script src="{{ url_for('static', path='dimension/assets/js/breakpoints.min.js') }}"></script>
     <script src="{{ url_for('static', path='dimension/assets/js/util.js') }}"></script>
     <script src="{{ url_for('static', path='dimension/assets/js/main.js') }}"></script>
-
 </body>
 </html>

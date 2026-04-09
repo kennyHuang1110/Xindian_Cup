@@ -1,29 +1,30 @@
 # Xindian_Cup
 
-`Xindian_Cup` is a FastAPI-based MVP skeleton for a Google Cloud Compute Engine deployment using:
+`Xindian_Cup` 是一個以 FastAPI 為核心的排球賽事網站 MVP，提供公開公告名單、隊長驗證入口、隊員管理、歷屆照片與比賽章程頁面，目標部署環境為 Google Cloud Compute Engine VM。
 
-- FastAPI
-- Jinja2
-- PostgreSQL
-- Nginx
-- `systemd`
-- Let's Encrypt
+## 目前已完成
 
-This first version focuses on a maintainable project structure and a directly runnable baseline.
+- FastAPI + Jinja2 網站骨架
+- `/health` 健康檢查
+- 首頁、公告名單、歷屆照片、比賽章程頁
+- SQLAlchemy models 與 Alembic 初始 migration
+- 管理者建立隊伍 API
+- LINE entry 取得隊長 session
+- 隊長 Email 驗證流程
+- 隊長管理頁新增隊員流程
+- 黑名單與 admin token 基本保護
+- Nginx / systemd / GCP VM 部署範本
 
-## Current MVP scope
+## 目前主要流程
 
-- FastAPI app boots successfully
-- `/health` liveness endpoint
-- `/` homepage renders `Xindian_Cup Running`
-- SQLAlchemy models for `teams`, `members`, `email_verifications`, `sessions`, `blacklists`, `audit_logs`
-- Alembic initial migration for the six core tables
-- Pydantic schemas and API router modules for planned endpoints
-- Admin team creation flow with DB persistence
-- Public team page at `/public/teams`
-- Deployment templates for Nginx and `systemd`
+1. 管理者先建立隊伍與隊長資料
+2. 隊長透過 `POST /api/auth/line-entry` 取得登入 session
+3. 隊長進入 `/captain/manage`
+4. 隊長完成 Email 驗證
+5. 驗證完成後新增隊員
+6. 公開頁 `/public/teams` 顯示已公告隊伍與成員
 
-## Project structure
+## 專案結構
 
 ```text
 app/
@@ -42,9 +43,10 @@ infra/
 migrations/
 scripts/
 tests/
+img/
 ```
 
-## Quick start
+## 本機啟動
 
 ```bash
 python -m venv .venv
@@ -55,18 +57,36 @@ alembic upgrade head
 uvicorn app.main:app --reload
 ```
 
-Open:
+開啟：
 
 - `http://127.0.0.1:8000/`
 - `http://127.0.0.1:8000/health`
 - `http://127.0.0.1:8000/public/teams`
+- `http://127.0.0.1:8000/history/photos`
+- `http://127.0.0.1:8000/charter`
+- `http://127.0.0.1:8000/docs`
 
-## API routes in this scaffold
+## 測試
+
+```bash
+pytest tests
+```
+
+目前測試涵蓋：
+
+- 健康檢查與首頁
+- admin 建隊流程
+- 公告名單頁
+- LINE entry 驗證
+- 隊長 web flow
+- Email 驗證後新增隊員
+- 隊長登出
+
+## API 路由
 
 - `GET /health`
 - `GET /api/public/teams`
 - `GET /api/public/teams/detail`
-- `GET /public/teams`
 - `POST /api/auth/line-entry`
 - `POST /api/captain/send-email-verification`
 - `GET /api/captain/verify-email`
@@ -77,25 +97,29 @@ Open:
 - `PATCH /api/admin/teams/{id}`
 - `POST /api/admin/blacklist`
 
-## Database notes
+## 頁面路由
 
-- PostgreSQL is the intended production database.
-- Alembic migration files live under `migrations/versions/`.
-- Run `alembic upgrade head` after configuring `DATABASE_URL`.
-- `python scripts/init_db.py` is kept as a simple local bootstrap helper.
+- `/`
+- `/public/teams`
+- `/history/photos`
+- `/charter`
+- `/captain/manage`
 
-## Deployment
+## 部署
 
-Deployment draft: [docs/deployment.md](docs/deployment.md)
+部署草稿請看：
 
-Templates:
+- [docs/deployment.md](/c:/Users/user/Desktop/Xindian_Cup/docs/deployment.md)
 
-- [infra/nginx/xindian-cup.conf.example](infra/nginx/xindian-cup.conf.example)
-- [infra/systemd/xindian-cup.service](infra/systemd/xindian-cup.service)
+範本檔：
 
-## Planned next steps
+- [infra/nginx/xindian-cup.conf.example](/c:/Users/user/Desktop/Xindian_Cup/infra/nginx/xindian-cup.conf.example)
+- [infra/systemd/xindian-cup.service](/c:/Users/user/Desktop/Xindian_Cup/infra/systemd/xindian-cup.service)
 
-- Add Alembic migration support
-- Implement real captain session auth
-- Add email sending service and verification links
-- Add admin authorization and audit logging hooks
+## 接下來可再補
+
+- 真正的 LINE Login / LIFF / webhook 驗證
+- 真實 SMTP 寄信
+- session 撤銷與逾期清理
+- rate limit
+- 更完整的 audit log 記錄

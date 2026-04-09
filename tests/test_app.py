@@ -1,4 +1,4 @@
-"""Basic smoke tests for the MVP application."""
+"""Basic smoke tests for the application."""
 
 from app.api.deps import get_db
 from app.main import app
@@ -15,8 +15,20 @@ def test_health(client) -> None:
 def test_index(client) -> None:
     response = client.get("/")
     assert response.status_code == 200
-    assert "Xindian_Cup" in response.text
-    assert "Captain Console" in response.text or "/captain/manage" in response.text
+    assert "XINDIAN_CUP" in response.text
+    assert "查看公告名單" in response.text
+
+
+def test_history_and_charter_pages_render(client) -> None:
+    history_response = client.get("/history/photos")
+    assert history_response.status_code == 200
+    assert "歷屆照片" in history_response.text
+    assert "2024" in history_response.text
+
+    charter_response = client.get("/charter")
+    assert charter_response.status_code == 200
+    assert "2026 新店盃混排校友賽" in charter_response.text
+    assert "壹、主旨" in charter_response.text
 
 
 def test_admin_create_team_sets_pending_status(client, admin_headers) -> None:
@@ -189,7 +201,7 @@ def test_line_entry_allows_pending_team_and_manage_page_requires_session(client,
     manage_page = client.get(line_entry.json()["manage_url"], follow_redirects=True)
     assert manage_page.status_code == 200
     assert "Pending Team" in manage_page.text
-    assert "建立 email 驗證連結" in manage_page.text
+    assert "寄送 Email 驗證連結" in manage_page.text
 
 
 def test_captain_manage_web_flow_adds_member_after_email_verification(client, admin_headers) -> None:
@@ -215,7 +227,7 @@ def test_captain_manage_web_flow_adds_member_after_email_verification(client, ad
 
     send_link = client.post("/captain/manage/send-email-verification")
     assert send_link.status_code == 200
-    assert "email 驗證連結" in send_link.text
+    assert "Email 驗證連結" in send_link.text
 
     override = app.dependency_overrides[get_db]
     db_generator = override()
@@ -229,7 +241,7 @@ def test_captain_manage_web_flow_adds_member_after_email_verification(client, ad
 
     verify_page = client.get(f"/captain/verify-email?token={verification_token}")
     assert verify_page.status_code == 200
-    assert "email 驗證完成" in verify_page.text
+    assert "Email 驗證完成" in verify_page.text
 
     member_create = client.post(
         "/captain/manage/members",
@@ -242,3 +254,33 @@ def test_captain_manage_web_flow_adds_member_after_email_verification(client, ad
     )
     assert member_create.status_code == 200
     assert "Henry" in member_create.text
+
+
+def test_captain_logout_clears_web_session(client, admin_headers) -> None:
+    response = client.post(
+        "/api/admin/teams",
+        json={
+            "team_name": "Logout Team",
+            "captain_name": "Ivy",
+            "captain_email": "ivy@example.com",
+            "captain_phone": None,
+            "captain_line_user_id": "line-ivy",
+        },
+        headers=admin_headers,
+    )
+    team_id = response.json()["id"]
+
+    line_entry = client.post(
+        "/api/auth/line-entry",
+        json={"team_id": team_id, "line_user_id": "line-ivy"},
+    )
+    manage_page = client.get(line_entry.json()["manage_url"], follow_redirects=True)
+    assert manage_page.status_code == 200
+    assert "Logout Team" in manage_page.text
+
+    logout_response = client.post("/captain/logout", follow_redirects=True)
+    assert logout_response.status_code == 200
+    assert "XINDIAN_CUP" in logout_response.text
+
+    denied_page = client.get("/captain/manage")
+    assert "請先完成 LINE 驗證入口" in denied_page.text
