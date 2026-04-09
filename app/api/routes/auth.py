@@ -28,10 +28,10 @@ def line_entry(payload: LineEntryRequest, db: Session = Depends(get_db)) -> Line
             status_code=status.HTTP_403_FORBIDDEN,
             detail="LINE user is not assigned to this captain.",
         )
-    if team.status != TeamStatus.ACTIVE:
+    if team.status == TeamStatus.DISABLED:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
-            detail="Captain account is not active yet.",
+            detail="Captain account is disabled.",
         )
 
     ensure_not_blacklisted(db, "line_user_id", payload.line_user_id)
@@ -52,6 +52,8 @@ def line_entry(payload: LineEntryRequest, db: Session = Depends(get_db)) -> Line
         message="Captain session created.",
         team_id=payload.team_id,
         line_user_id=payload.line_user_id,
+        team_status=team.status,
         session_token=raw_token,
+        manage_url=f"/captain/manage?session_token={raw_token}",
         expires_at=expires_at,
     )

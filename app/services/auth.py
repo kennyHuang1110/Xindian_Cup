@@ -9,6 +9,7 @@ from sqlalchemy.orm import Session
 
 from app.api.deps import get_db
 from app.models.blacklist import Blacklist
+from app.models.email_verification import EmailVerification
 from app.models.session import Session as CaptainSession
 from app.models.team import Team, TeamStatus
 from app.services.security import hash_token
@@ -42,18 +43,25 @@ def ensure_not_blacklisted(db: Session, entry_type: str, value: str) -> None:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=reason)
 
 
-def get_current_captain_session(
-    credentials: HTTPAuthorizationCredentials | None = Depends(bearer_scheme),
-    db: Session = Depends(get_db),
-) -> tuple[CaptainSession, Team]:
-    """Resolve the current captain session and owning team from a bearer token."""
-    if credentials is None:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Captain session token is required.",
-        )
+def is_team_email_verified(db: Session, team_id: int) -> bool:
+    """Return whether the team's captain email has been verified."""
+    stmt = (
+        select(EmailVerification)
+        .where(EmailVerification.team_id == team_id)
+        .where(EmailVerification.used_at.is_not(None))
+        .order_by(EmailVerification.created_at.desc())
+    )
+    return db.scalars(stmt).first() is not None
 
-    token_hash = hash_token(credentials.credentials)
+
+def get_captain_session_by_token(
+    db: Session,
+    raw_token: str,
+    *,
+    require_active_team: bool = False,
+) -> tuple[CaptainSession, Team]:
+    """Resolve a captain session and team from a raw token value."""
+    token_hash = hash_token(raw_token)
     stmt = select(CaptainSession).where(CaptainSession.session_token_hash == token_hash)
     session = db.scalars(stmt).first()
     if session is None:
@@ -64,7 +72,12 @@ def get_current_captain_session(
     team = db.get(Team, session.team_id)
     if team is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Team not found.")
-    if team.status != TeamStatus.ACTIVE:
+    if team.status == TeamStatus.DISABLED:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Captain account is disabled.",
+        )
+    if require_active_team and team.status != TeamStatus.ACTIVE:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Captain account is not active.",
@@ -75,3 +88,16 @@ def get_current_captain_session(
         ensure_not_blacklisted(db, "email", team.captain_email)
 
     return session, team
+
+
+def get_current_captain_session(
+    credentials: HTTPAuthorizationCredentials | None = Depends(bearer_scheme),
+    db: Session = Depends(get_db),
+) -> tuple[CaptainSession, Team]:
+    """Resolve the current captain session and owning team from a bearer token."""
+    if credentials is None:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Captain session token is required.",
+        )
+    return get_captain_session_by_token(db, credentials.credentials, require_active_team=False)

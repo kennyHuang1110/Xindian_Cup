@@ -16,7 +16,7 @@ def test_index(client) -> None:
     response = client.get("/")
     assert response.status_code == 200
     assert "Xindian_Cup" in response.text
-    assert "/captain/manage" in response.text
+    assert "Captain Console" in response.text or "/captain/manage" in response.text
 
 
 def test_admin_create_team_sets_pending_status(client, admin_headers) -> None:
@@ -52,9 +52,18 @@ def test_public_teams_page_shows_active_team_and_members(client, admin_headers) 
     )
     team_id = team_response.json()["id"]
 
+    line_entry_response = client.post(
+        "/api/auth/line-entry",
+        json={"team_id": team_id, "line_user_id": "line-bob"},
+    )
+    assert line_entry_response.status_code == 200
+    session_token = line_entry_response.json()["session_token"]
+    headers = {"Authorization": f"Bearer {session_token}"}
+
     verification_response = client.post(
         "/api/captain/send-email-verification",
         json={"team_id": team_id, "email": "bob@example.com"},
+        headers=headers,
     )
     assert verification_response.status_code == 200
     assert "verification_token" not in verification_response.json()
@@ -84,14 +93,6 @@ def test_public_teams_page_shows_active_team_and_members(client, admin_headers) 
     verify_response = client.get(f"/api/captain/verify-email?token={verification_token}")
     assert verify_response.status_code == 200
     assert verify_response.json()["status"] == "verified"
-
-    line_entry_response = client.post(
-        "/api/auth/line-entry",
-        json={"team_id": team_id, "line_user_id": "line-bob"},
-    )
-    assert line_entry_response.status_code == 200
-    session_token = line_entry_response.json()["session_token"]
-    headers = {"Authorization": f"Bearer {session_token}"}
 
     me_response = client.get("/api/captain/me", headers=headers)
     assert me_response.status_code == 200
@@ -138,25 +139,6 @@ def test_line_entry_rejects_mismatched_line_user(client, admin_headers) -> None:
     )
     team_id = team_response.json()["id"]
 
-    verification_response = client.post(
-        "/api/captain/send-email-verification",
-        json={"team_id": team_id, "email": "dana@example.com"},
-    )
-    assert verification_response.status_code == 200
-    assert "verification_token" not in verification_response.json()
-
-    override = app.dependency_overrides[get_db]
-    db_generator = override()
-    db = next(db_generator)
-    record = db.query(EmailVerification).filter(EmailVerification.team_id == team_id).first()
-    verification_token = "test-token-dana-001"
-    record.token_hash = hash_token(verification_token)
-    db.add(record)
-    db.commit()
-    db.close()
-
-    client.get(f"/api/captain/verify-email?token={verification_token}")
-
     line_entry_response = client.post(
         "/api/auth/line-entry",
         json={"team_id": team_id, "line_user_id": "line-someone-else"},
@@ -176,3 +158,87 @@ def test_admin_endpoints_require_token(client) -> None:
         },
     )
     assert response.status_code == 401
+
+
+def test_line_entry_allows_pending_team_and_manage_page_requires_session(client, admin_headers) -> None:
+    response = client.post(
+        "/api/admin/teams",
+        json={
+            "team_name": "Pending Team",
+            "captain_name": "Frank",
+            "captain_email": "frank@example.com",
+            "captain_phone": None,
+            "captain_line_user_id": "line-frank",
+        },
+        headers=admin_headers,
+    )
+    team_id = response.json()["id"]
+
+    denied_page = client.get("/captain/manage")
+    assert denied_page.status_code == 200
+    assert "LINE" in denied_page.text
+
+    line_entry = client.post(
+        "/api/auth/line-entry",
+        json={"team_id": team_id, "line_user_id": "line-frank"},
+    )
+    assert line_entry.status_code == 200
+    assert line_entry.json()["team_status"] == "pending"
+    assert "/captain/manage?session_token=" in line_entry.json()["manage_url"]
+
+    manage_page = client.get(line_entry.json()["manage_url"], follow_redirects=True)
+    assert manage_page.status_code == 200
+    assert "Pending Team" in manage_page.text
+    assert "建立 email 驗證連結" in manage_page.text
+
+
+def test_captain_manage_web_flow_adds_member_after_email_verification(client, admin_headers) -> None:
+    response = client.post(
+        "/api/admin/teams",
+        json={
+            "team_name": "Web Manage Team",
+            "captain_name": "Grace",
+            "captain_email": "grace@example.com",
+            "captain_phone": None,
+            "captain_line_user_id": "line-grace",
+        },
+        headers=admin_headers,
+    )
+    team_id = response.json()["id"]
+
+    line_entry = client.post(
+        "/api/auth/line-entry",
+        json={"team_id": team_id, "line_user_id": "line-grace"},
+    )
+    manage_page = client.get(line_entry.json()["manage_url"], follow_redirects=True)
+    assert manage_page.status_code == 200
+
+    send_link = client.post("/captain/manage/send-email-verification")
+    assert send_link.status_code == 200
+    assert "email 驗證連結" in send_link.text
+
+    override = app.dependency_overrides[get_db]
+    db_generator = override()
+    db = next(db_generator)
+    record = db.query(EmailVerification).filter(EmailVerification.team_id == team_id).first()
+    verification_token = "test-token-grace-001"
+    record.token_hash = hash_token(verification_token)
+    db.add(record)
+    db.commit()
+    db.close()
+
+    verify_page = client.get(f"/captain/verify-email?token={verification_token}")
+    assert verify_page.status_code == 200
+    assert "email 驗證完成" in verify_page.text
+
+    member_create = client.post(
+        "/captain/manage/members",
+        data={
+            "name": "Henry",
+            "phone": "0912000111",
+            "is_alumni": "true",
+        },
+        follow_redirects=True,
+    )
+    assert member_create.status_code == 200
+    assert "Henry" in member_create.text

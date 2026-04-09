@@ -18,7 +18,7 @@ from app.schemas.email_verification import (
 )
 from app.schemas.member import MemberCreate, MemberRead
 from app.schemas.team import CaptainProfileRead
-from app.services.auth import get_current_captain_session
+from app.services.auth import get_current_captain_session, is_team_email_verified
 from app.services.security import generate_token, hash_token
 
 router = APIRouter()
@@ -40,14 +40,7 @@ def _get_team_or_404(db: Session, team_id: int) -> Team:
 
 
 def _ensure_verified(db: Session, team_id: int) -> None:
-    stmt = (
-        select(EmailVerification)
-        .where(EmailVerification.team_id == team_id)
-        .where(EmailVerification.used_at.is_not(None))
-        .order_by(EmailVerification.created_at.desc())
-    )
-    verification = db.scalars(stmt).first()
-    if verification is None:
+    if not is_team_email_verified(db, team_id):
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Captain email verification is required.",
@@ -57,9 +50,16 @@ def _ensure_verified(db: Session, team_id: int) -> None:
 @router.post("/send-email-verification", response_model=EmailVerificationIssueResponse)
 def send_email_verification(
     payload: EmailVerificationRequest,
+    current: tuple[object, Team] = Depends(get_current_captain_session),
     db: Session = Depends(get_db),
 ) -> EmailVerificationIssueResponse:
     """Create a verification token record for a captain email."""
+    _, current_team = current
+    if payload.team_id != current_team.id:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Captain can only request verification for their own team.",
+        )
     team = _get_team_or_404(db, payload.team_id)
     expires_at = datetime.now(timezone.utc) + timedelta(
         minutes=settings.email_verification_expire_minutes
@@ -115,7 +115,6 @@ def get_me(
 ) -> Team:
     """Return the captain-facing team profile."""
     _, team = current
-    _ensure_verified(db, team.id)
     return _get_team_or_404(db, team.id)
 
 

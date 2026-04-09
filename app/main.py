@@ -2,13 +2,19 @@
 
 from pathlib import Path
 
-from fastapi import FastAPI, Request
-from fastapi.responses import HTMLResponse
+from fastapi import Depends, FastAPI, Form, Request
+from fastapi.responses import HTMLResponse, RedirectResponse
+from sqlalchemy import select
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+from sqlalchemy.orm import Session
 
+from app.api.deps import get_db
 from app.api.router import api_router
 from app.core.config import get_settings
+from app.models.member import Member
+from app.models.team import Team
+from app.services.auth import get_captain_session_by_token, is_team_email_verified
 
 settings = get_settings()
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -22,6 +28,7 @@ app = FastAPI(
 app.mount("/static", StaticFiles(directory="app/static"), name="static")
 app.mount("/gallery", StaticFiles(directory="img"), name="gallery")
 templates = Jinja2Templates(directory="app/templates")
+CAPTAIN_SESSION_COOKIE = "captain_session"
 
 
 def get_gallery_photos() -> list[dict[str, str | int]]:
@@ -64,6 +71,54 @@ def load_charter() -> dict[str, object]:
         current_section["items"].append(line)
 
     return {"title": title, "sections": sections}
+
+
+def _render_captain_manage_page(
+    request: Request,
+    db: Session,
+    *,
+    status_code: int = 200,
+    access_denied: str | None = None,
+    flash_message: str | None = None,
+    verification_preview_url: str | None = None,
+) -> HTMLResponse:
+    """Render the captain management page from a session cookie when available."""
+    session_token = request.cookies.get(CAPTAIN_SESSION_COOKIE)
+    captain_session = None
+    team = None
+    members: list[Member] = []
+    email_verified = False
+
+    if session_token:
+        try:
+            captain_session, team = get_captain_session_by_token(db, session_token)
+            stmt = (
+                select(Member)
+                .where(Member.team_id == team.id)
+                .order_by(Member.created_at, Member.id)
+            )
+            members = list(db.scalars(stmt).all())
+            email_verified = is_team_email_verified(db, team.id)
+        except Exception as exc:  # noqa: BLE001
+            access_denied = str(exc.detail) if hasattr(exc, "detail") else "Captain session is invalid."
+            captain_session = None
+            team = None
+
+    return templates.TemplateResponse(
+        request,
+        "captain_manage.html",
+        {
+            "app_name": settings.app_name,
+            "team": team,
+            "members": members,
+            "email_verified": email_verified,
+            "access_denied": access_denied,
+            "flash_message": flash_message,
+            "verification_preview_url": verification_preview_url,
+            "captain_session": captain_session,
+        },
+        status_code=status_code,
+    )
 
 
 @app.get("/", response_class=HTMLResponse, tags=["pages"])
@@ -109,13 +164,147 @@ async def charter_page(request: Request) -> HTMLResponse:
 
 
 @app.get("/captain/manage", response_class=HTMLResponse, tags=["pages"])
-async def captain_manage(request: Request) -> HTMLResponse:
-    """Render a temporary captain entry page placeholder."""
-    return templates.TemplateResponse(
+async def captain_manage(request: Request, db: Session = Depends(get_db)) -> HTMLResponse:
+    """Render the captain management page guarded by a LINE-issued session."""
+    session_token = request.query_params.get("session_token")
+    if session_token:
+        response = RedirectResponse(url="/captain/manage", status_code=303)
+        response.set_cookie(
+            CAPTAIN_SESSION_COOKIE,
+            session_token,
+            httponly=True,
+            samesite="lax",
+            max_age=settings.session_expire_hours * 3600,
+        )
+        return response
+    if request.cookies.get(CAPTAIN_SESSION_COOKIE):
+        return _render_captain_manage_page(request, db)
+    return _render_captain_manage_page(
         request,
-        "captain_manage.html",
-        {"app_name": settings.app_name},
+        db,
+        access_denied="請先完成 LINE 驗證後，再從通知入口開啟隊長頁面。",
     )
+
+
+@app.post("/captain/manage/send-email-verification", response_class=HTMLResponse, tags=["pages"])
+async def captain_manage_send_email_verification(
+    request: Request,
+    db: Session = Depends(get_db),
+) -> HTMLResponse:
+    """Issue an email verification link for the captain currently bound to the cookie session."""
+    session_token = request.cookies.get(CAPTAIN_SESSION_COOKIE)
+    if not session_token:
+        return _render_captain_manage_page(
+            request,
+            db,
+            status_code=401,
+            access_denied="請先完成 LINE 驗證後，再從通知入口開啟隊長頁面。",
+        )
+
+    _, team = get_captain_session_by_token(db, session_token)
+    if is_team_email_verified(db, team.id):
+        return _render_captain_manage_page(
+            request,
+            db,
+            flash_message="隊長 email 已完成驗證。",
+        )
+
+    from app.models.email_verification import EmailVerification
+    from app.services.security import generate_token, hash_token
+    from datetime import datetime, timedelta, timezone
+
+    raw_token = generate_token(24)
+    expires_at = datetime.now(timezone.utc) + timedelta(
+        minutes=settings.email_verification_expire_minutes
+    )
+    verification = EmailVerification(
+        team_id=team.id,
+        email=team.captain_email,
+        token_hash=hash_token(raw_token),
+        expires_at=expires_at,
+    )
+    db.add(verification)
+    db.commit()
+
+    preview_url = f"{settings.app_base_url}/captain/verify-email?token={raw_token}"
+    return _render_captain_manage_page(
+        request,
+        db,
+        flash_message="已建立 email 驗證連結。開發模式可直接使用下方預覽連結。",
+        verification_preview_url=preview_url,
+    )
+
+
+@app.get("/captain/verify-email", response_class=HTMLResponse, tags=["pages"])
+async def captain_verify_email_page(
+    request: Request,
+    token: str,
+    db: Session = Depends(get_db),
+) -> HTMLResponse:
+    """Handle email verification links for browser users and redirect back to the captain page."""
+    from app.models.email_verification import EmailVerification
+    from app.models.team import TeamStatus
+    from app.services.security import hash_token
+    from datetime import datetime, timezone
+
+    stmt = select(EmailVerification).where(EmailVerification.token_hash == hash_token(token))
+    record = db.scalars(stmt).first()
+    if record is None:
+        return _render_captain_manage_page(request, db, status_code=404, access_denied="驗證連結不存在。")
+    if record.used_at is not None:
+        return _render_captain_manage_page(request, db, flash_message="這組 email 驗證連結已使用。")
+    expires_at = record.expires_at
+    if expires_at.tzinfo is None:
+        expires_at = expires_at.replace(tzinfo=timezone.utc)
+    if expires_at < datetime.now(timezone.utc):
+        return _render_captain_manage_page(request, db, status_code=400, access_denied="驗證連結已過期。")
+
+    record.used_at = datetime.now(timezone.utc)
+    team = db.get(Team, record.team_id)
+    if team:
+        team.status = TeamStatus.ACTIVE
+        db.add(team)
+    db.add(record)
+    db.commit()
+    return _render_captain_manage_page(request, db, flash_message="email 驗證完成，現在可以新增隊員。")
+
+
+@app.post("/captain/manage/members", response_class=HTMLResponse, tags=["pages"])
+async def captain_manage_create_member(
+    request: Request,
+    name: str = Form(...),
+    phone: str | None = Form(default=None),
+    is_alumni: bool = Form(...),
+    db: Session = Depends(get_db),
+) -> HTMLResponse:
+    """Create a member from the protected captain management page."""
+    session_token = request.cookies.get(CAPTAIN_SESSION_COOKIE)
+    if not session_token:
+        return _render_captain_manage_page(
+            request,
+            db,
+            status_code=401,
+            access_denied="請先完成 LINE 驗證後，再從通知入口開啟隊長頁面。",
+        )
+    captain_session, team = get_captain_session_by_token(db, session_token)
+    if not is_team_email_verified(db, team.id):
+        return _render_captain_manage_page(
+            request,
+            db,
+            status_code=403,
+            access_denied="隊長需先完成 email 驗證，才能新增隊員。",
+        )
+
+    member = Member(
+        team_id=team.id,
+        name=name.strip(),
+        phone=(phone or "").strip() or None,
+        is_alumni=is_alumni,
+        created_by=captain_session.id,
+    )
+    db.add(member)
+    db.commit()
+    return RedirectResponse(url="/captain/manage", status_code=303)
 
 
 app.include_router(api_router)

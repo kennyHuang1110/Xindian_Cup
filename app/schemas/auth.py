@@ -4,6 +4,8 @@ from datetime import datetime
 
 from pydantic import BaseModel, Field
 
+from app.models.team import TeamStatus
+
 
 class LineEntryRequest(BaseModel):
     """Incoming LINE entry payload."""
@@ -19,5 +21,7 @@ class LineEntryResponse(BaseModel):
     message: str
     team_id: int
     line_user_id: str
+    team_status: TeamStatus
     session_token: str
+    manage_url: str
     expires_at: datetime
