@@ -1,56 +1,47 @@
-<!DOCTYPE html>
-<html lang="zh-Hant">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{{ app_name }} Public Teams</title>
-    <link rel="stylesheet" href="{{ url_for('static', path='css/site.css') }}" />
-</head>
-<body>
-    <main class="page-shell">
-        <section class="page-hero">
-            <p class="eyebrow">Public Teams</p>
-            <h1>Xindian_Cup 公開名單</h1>
-            <p class="subtitle">以下顯示目前已啟用隊伍與其公開成員名單。</p>
-        </section>
+{% extends "base_dimension.html" %}
 
-        <section class="team-grid">
-            {% if teams %}
-                {% for team in teams %}
-                    <article class="team-card">
-                        <header class="team-card-header">
-                            <div>
-                                <h2>{{ team.team_name }}</h2>
-                                <p class="team-meta">隊長：{{ team.captain_name }}</p>
-                            </div>
-                            <span class="status-badge">{{ team.status.value }}</span>
-                        </header>
+{% block title %}{{ app_name }} | 公告名單{% endblock %}
 
-                        <div class="member-section">
-                            <h3>隊員名單</h3>
-                            {% if team.members %}
-                                <ul class="member-list">
-                                    {% for member in team.members %}
-                                        <li class="member-item">
-                                            <strong>{{ member.name }}</strong>
-                                            <span>{{ "校友" if member.is_alumni else "非校友" }}</span>
-                                            <span>{{ member.phone or "未填電話" }}</span>
-                                        </li>
-                                    {% endfor %}
-                                </ul>
-                            {% else %}
-                                <p class="empty-state">尚未新增隊員。</p>
-                            {% endif %}
+{% block header_inner %}
+<h1>公告名單</h1>
+<p>公開顯示已建立的隊伍與隊員資料，作為主辦公告與賽前確認的基礎頁面。</p>
+{% endblock %}
+
+{% block main %}
+<article id="teams" class="active article-static article-wide">
+    <h2 class="major">隊伍名單</h2>
+    {% if teams %}
+        <div class="dimension-team-grid">
+            {% for team in teams %}
+                <section class="dimension-team-card">
+                    <header class="dimension-team-header">
+                        <div>
+                            <h3>{{ team.team_name }}</h3>
+                            <p>隊長：{{ team.captain_name }}</p>
                         </div>
-                    </article>
-                {% endfor %}
-            {% else %}
-                <div class="team-card">
-                    <h2>目前尚無公開隊伍</h2>
-                    <p class="empty-state">等管理者啟用隊伍後，名單會顯示在這裡。</p>
-                </div>
-            {% endif %}
-        </section>
-    </main>
-</body>
-</html>
+                        <span class="dimension-status">{{ team.status.value }}</span>
+                    </header>
+                    <div class="dimension-member-block">
+                        <h4>隊員資料</h4>
+                        {% if team.members %}
+                            <ul class="dimension-member-list">
+                                {% for member in team.members %}
+                                    <li>
+                                        <strong>{{ member.name }}</strong>
+                                        <span>{{ "校友" if member.is_alumni else "非校友" }}</span>
+                                        <span>{{ member.phone or "未提供電話" }}</span>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% else %}
+                            <p>目前尚未新增隊員。</p>
+                        {% endif %}
+                    </div>
+                </section>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>目前尚未有公開隊伍，後續建立後會顯示在這裡。</p>
+    {% endif %}
+</article>
+{% endblock %}

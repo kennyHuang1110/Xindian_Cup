@@ -1,0 +1,53 @@
+<!DOCTYPE HTML>
+<html lang="zh-Hant">
+<head>
+    <title>{% block title %}{{ app_name }}{% endblock %}</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="{{ url_for('static', path='dimension/assets/css/main.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', path='css/style.css') }}" />
+    <noscript><link rel="stylesheet" href="{{ url_for('static', path='dimension/assets/css/noscript.css') }}" /></noscript>
+</head>
+<body class="{% block body_class %}page-static{% endblock %}">
+    <div id="wrapper">
+        <header id="header" class="header-static">
+            <div class="logo">
+                <span class="image fit" style="margin:0; width:100%; height:100%; display:flex; align-items:center; justify-content:center;">
+                    <img src="{{ url_for('gallery', path='新店盃排球賽 2026 標誌.png') }}" alt="新店盃排球賽標誌" style="width:72%; height:72%; object-fit:contain;" />
+                </span>
+            </div>
+            <div class="content">
+                <div class="inner">
+                    {% block header_inner %}{% endblock %}
+                </div>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="/">首頁</a></li>
+                    <li><a href="/public/teams">名單</a></li>
+                    <li><a href="/history/photos">照片</a></li>
+                    <li><a href="/charter">章程</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <div id="main">
+            {% block main %}{% endblock %}
+        </div>
+
+        <footer id="footer">
+            <p class="copyright">Xindian_Cup</p>
+        </footer>
+    </div>
+
+    <div id="bg"></div>
+
+    {% block scripts %}
+    <script src="{{ url_for('static', path='dimension/assets/js/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', path='dimension/assets/js/browser.min.js') }}"></script>
+    <script src="{{ url_for('static', path='dimension/assets/js/breakpoints.min.js') }}"></script>
+    <script src="{{ url_for('static', path='dimension/assets/js/util.js') }}"></script>
+    <script src="{{ url_for('static', path='dimension/assets/js/main.js') }}"></script>
+    {% endblock %}
+</body>
+</html>

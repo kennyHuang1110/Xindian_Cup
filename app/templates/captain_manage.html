@@ -1,24 +1,20 @@
-<!DOCTYPE html>
-<html lang="zh-Hant">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{{ app_name }} | 隊長入口</title>
-    <link rel="stylesheet" href="{{ url_for('static', path='css/style.css') }}" />
-</head>
-<body class="landing-page">
-    <main class="placeholder-page">
-        <div class="placeholder-card">
-            <p class="section-kicker">Captain Entry</p>
-            <h1>隊長入口建置中</h1>
-            <p>
-                隊長管理頁的前台入口已預留，後續將串接 LINE entry、session 驗證與隊員管理功能。
-            </p>
-            <div class="hero-actions">
-                <a class="button button-primary" href="/">返回首頁</a>
-                <a class="button button-secondary" href="/docs">查看 API 文件</a>
-            </div>
-        </div>
-    </main>
-</body>
-</html>
+{% extends "base_dimension.html" %}
+
+{% block title %}{{ app_name }} | 隊長入口{% endblock %}
+
+{% block header_inner %}
+<h1>隊長入口</h1>
+<p>這裡是隊長後續登入與管理名單的入口頁，後續會串接 LINE 與 session 驗證。</p>
+{% endblock %}
+
+{% block main %}
+<article id="captain" class="active article-static">
+    <h2 class="major">Captain Entry</h2>
+    <p>隊長完成驗證後，將可從這裡進入名單管理、查看隊伍狀態與更新隊員資料。</p>
+    <p>目前此頁先作為入口頁占位，後續會接上正式驗證流程與保護機制。</p>
+    <ul class="actions">
+        <li><a href="/" class="button primary">返回首頁</a></li>
+        <li><a href="/docs" class="button">API 文件</a></li>
+    </ul>
+</article>
+{% endblock %}

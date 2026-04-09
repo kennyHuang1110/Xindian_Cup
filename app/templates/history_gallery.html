@@ -1,55 +1,27 @@
-<!DOCTYPE html>
-<html lang="zh-Hant">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{{ app_name }} | 歷屆照片</title>
-    <link rel="stylesheet" href="{{ url_for('static', path='css/style.css') }}" />
-</head>
-<body class="landing-page">
-    <header class="site-header">
-        <div class="shell header-inner">
-            <a class="brand" href="/">Xindian_Cup</a>
-            <nav class="header-nav" aria-label="主要導覽">
-                <a href="/">首頁</a>
-                <a href="/public/teams">公告名單</a>
-                <a href="/charter">比賽章程</a>
-            </nav>
-        </div>
-    </header>
+{% extends "base_dimension.html" %}
 
-    <main class="page-main">
-        <section class="page-banner">
-            <div class="shell">
-                <p class="section-kicker">歷屆照片</p>
-                <h1>新店盃排球賽歷年紀錄</h1>
-                <p class="page-intro">
-                    從第一屆到最新一屆，回顧新店盃排球賽的精彩瞬間與歷史片段。每一張照片都承載著當時的熱血與回憶，見證了這項賽事的成長與變遷。
-                </p>
-            </div>
-        </section>
+{% block title %}{{ app_name }} | 歷屆照片{% endblock %}
 
-        <section class="gallery-section page-section">
-            <div class="shell">
-                <div class="gallery-grid gallery-grid-full gallery-grid-history">
-                    {% for photo in gallery_photos %}
-                        <figure class="gallery-card gallery-card-history">
-                            <div class="gallery-media">
-                                <img
-                                    src="{{ url_for('gallery', path=photo.file) }}"
-                                    alt="新店盃排球賽 {{ photo.year }} 年活動照片"
-                                    loading="lazy"
-                                />
-                            </div>
-                            <figcaption>
-                                <span class="gallery-year">{{ photo.year }}</span>
-                                <p>{{ photo.caption }}</p>
-                            </figcaption>
-                        </figure>
-                    {% endfor %}
-                </div>
-            </div>
-        </section>
-    </main>
-</body>
-</html>
+{% block header_inner %}
+<h1>歷屆照片</h1>
+<p>保留每一屆新店盃的現場紀錄，延續活動記憶與球場氛圍。</p>
+{% endblock %}
+
+{% block main %}
+<article id="photos" class="active article-static article-wide">
+    <h2 class="major">歷屆照片</h2>
+    <div class="dimension-gallery-grid">
+        {% for photo in gallery_photos %}
+            <figure class="dimension-gallery-card">
+                <span class="image fit dimension-gallery-image">
+                    <img src="{{ url_for('gallery', path=photo.file) }}" alt="新店盃排球賽 {{ photo.year }} 年照片" loading="lazy" />
+                </span>
+                <figcaption>
+                    <strong>{{ photo.year }}</strong>
+                    <p>{{ photo.caption }}</p>
+                </figcaption>
+            </figure>
+        {% endfor %}
+    </div>
+</article>
+{% endblock %}
