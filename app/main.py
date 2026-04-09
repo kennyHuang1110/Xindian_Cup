@@ -7,6 +7,7 @@ from fastapi import Depends, FastAPI, Form, Request
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
@@ -190,6 +191,31 @@ def _render_captain_manage_page(
     )
 
 
+def _render_admin_teams_page(
+    request: Request,
+    *,
+    flash_message: str | None = None,
+    error_message: str | None = None,
+    created_team: Team | None = None,
+    form_data: dict[str, str] | None = None,
+    status_code: int = 200,
+) -> HTMLResponse:
+    """Render the admin team creation page."""
+    return templates.TemplateResponse(
+        request,
+        "admin_teams.html",
+        {
+            "app_name": settings.app_name,
+            "logo_filename": get_logo_filename(),
+            "flash_message": flash_message,
+            "error_message": error_message,
+            "created_team": created_team,
+            "form_data": form_data or {},
+        },
+        status_code=status_code,
+    )
+
+
 @app.get("/", response_class=HTMLResponse, tags=["pages"])
 async def index(request: Request) -> HTMLResponse:
     """Render the public event landing page."""
@@ -255,6 +281,67 @@ async def captain_manage(request: Request, db: Session = Depends(get_db)) -> HTM
         request,
         db,
         access_denied="請先完成 LINE 驗證入口，取得隊長管理頁的登入狀態。",
+    )
+
+
+@app.get("/admin/teams", response_class=HTMLResponse, tags=["pages"])
+async def admin_teams_page(request: Request) -> HTMLResponse:
+    """Render the admin team creation page."""
+    return _render_admin_teams_page(request)
+
+
+@app.post("/admin/teams", response_class=HTMLResponse, tags=["pages"])
+async def admin_teams_create(
+    request: Request,
+    admin_token: str = Form(...),
+    team_name: str = Form(...),
+    captain_name: str = Form(...),
+    captain_email: str = Form(...),
+    captain_phone: str | None = Form(default=None),
+    captain_line_user_id: str | None = Form(default=None),
+    db: Session = Depends(get_db),
+) -> HTMLResponse:
+    """Create a team from the admin web form."""
+    form_data = {
+        "team_name": team_name,
+        "captain_name": captain_name,
+        "captain_email": captain_email,
+        "captain_phone": captain_phone or "",
+        "captain_line_user_id": captain_line_user_id or "",
+    }
+    if admin_token != settings.admin_api_token:
+        return _render_admin_teams_page(
+            request,
+            error_message="管理者 token 不正確，無法建立隊伍。",
+            form_data=form_data,
+            status_code=401,
+        )
+
+    team = Team(
+        team_name=team_name.strip(),
+        captain_name=captain_name.strip(),
+        captain_email=captain_email.strip(),
+        captain_phone=(captain_phone or "").strip() or None,
+        captain_line_user_id=(captain_line_user_id or "").strip() or None,
+        status=TeamStatus.PENDING,
+    )
+    try:
+        db.add(team)
+        db.commit()
+        db.refresh(team)
+    except IntegrityError:
+        db.rollback()
+        return _render_admin_teams_page(
+            request,
+            error_message="隊伍名稱或隊長 Email 已存在，請換一組再試。",
+            form_data=form_data,
+            status_code=409,
+        )
+
+    return _render_admin_teams_page(
+        request,
+        flash_message="隊伍與隊長資料已建立完成。",
+        created_team=team,
     )
 
 

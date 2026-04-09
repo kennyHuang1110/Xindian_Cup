@@ -31,6 +31,13 @@ def test_history_and_charter_pages_render(client) -> None:
     assert "壹、主旨" in charter_response.text
 
 
+def test_admin_team_page_renders(client) -> None:
+    response = client.get("/admin/teams")
+    assert response.status_code == 200
+    assert "管理者建隊" in response.text
+    assert "建立隊伍" in response.text
+
+
 def test_admin_create_team_sets_pending_status(client, admin_headers) -> None:
     response = client.post(
         "/api/admin/teams",
@@ -48,6 +55,23 @@ def test_admin_create_team_sets_pending_status(client, admin_headers) -> None:
     payload = response.json()
     assert payload["team_name"] == "Riverside Shooters"
     assert payload["status"] == "pending"
+
+
+def test_admin_team_page_can_create_team(client, admin_headers) -> None:
+    response = client.post(
+        "/admin/teams",
+        data={
+            "admin_token": admin_headers["X-Admin-Token"],
+            "team_name": "Admin Page Team",
+            "captain_name": "Page Owner",
+            "captain_email": "page-owner@example.com",
+            "captain_phone": "0911111111",
+            "captain_line_user_id": "line-page-owner",
+        },
+    )
+    assert response.status_code == 200
+    assert "隊伍與隊長資料已建立完成" in response.text
+    assert "Admin Page Team" in response.text
 
 
 def test_public_teams_page_shows_active_team_and_members(client, admin_headers) -> None:
@@ -134,7 +158,9 @@ def test_public_teams_page_shows_active_team_and_members(client, admin_headers) 
     page_response = client.get("/public/teams")
     assert page_response.status_code == 200
     assert "Active Team" in page_response.text
+    assert "隊長" in page_response.text
     assert "Charlie" in page_response.text
+    assert "是否為校友" in page_response.text
 
 
 def test_line_entry_rejects_mismatched_line_user(client, admin_headers) -> None:

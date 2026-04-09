@@ -1274,6 +1274,39 @@ body.page-static .article-wide {
     gap: 0.8rem;
 }
 
+.dimension-team-meta {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.dimension-team-meta span {
+    display: grid;
+    gap: 0.3rem;
+    padding: 0.8rem 0.9rem;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 0.35rem;
+}
+
+.dimension-team-meta strong {
+    font-size: 0.72rem;
+    letter-spacing: 0.12rem;
+    text-transform: uppercase;
+}
+
+.dimension-member-head {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr 1fr;
+    gap: 1rem;
+    padding: 0.4rem 0 0.7rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+    font-size: 0.78rem;
+    letter-spacing: 0.08rem;
+    text-transform: uppercase;
+    opacity: 0.85;
+}
+
 .dimension-member-list {
     list-style: none;
     padding: 0;
@@ -1308,6 +1341,17 @@ body.page-static .article-wide {
 
 .dimension-section-card p:last-child {
     margin-bottom: 0;
+}
+
+.dimension-admin-form .field label {
+    display: block;
+    margin-bottom: 0.45rem;
+}
+
+.dimension-admin-form input[type="text"],
+.dimension-admin-form input[type="email"],
+.dimension-admin-form input[type="password"] {
+    width: 100%;
 }
 
 @media (max-width: 980px) {
@@ -1458,6 +1502,8 @@ body.page-static .article-wide {
         flex-direction: column;
     }
 
+    .dimension-team-meta,
+    .dimension-member-head,
     .dimension-member-list li {
         grid-template-columns: 1fr;
         gap: 0.35rem;
