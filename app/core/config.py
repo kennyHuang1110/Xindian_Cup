@@ -28,9 +28,16 @@ class Settings(BaseSettings):
 
     line_channel_access_token: str = "change-me"
     line_channel_secret: str = "change-me"
+    line_login_allowed_ids: str = ""
+    line_login_cookie_name: str = "line_access"
     admin_api_token: str = "change-me"
 
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", case_sensitive=False)
+
+    @property
+    def parsed_line_login_allowed_ids(self) -> list[str]:
+        """Return configured LINE user ids as a normalized list."""
+        return [item.strip() for item in self.line_login_allowed_ids.split(",") if item.strip()]
 
 
 @lru_cache

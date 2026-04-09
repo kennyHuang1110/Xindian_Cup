@@ -1,0 +1,52 @@
+{% extends "base_dimension.html" %}
+
+{% block title %}{{ app_name }} | 賽程表{% endblock %}
+
+{% block header_inner %}
+<h1>{{ schedule.title }}</h1>
+<p>{{ schedule.description }}</p>
+{% endblock %}
+
+{% block main %}
+<article id="schedule" class="active article-static article-wide">
+    <h2 class="major">比賽循環圖</h2>
+    <div class="dimension-schedule-groups">
+        {% for group in schedule.groups %}
+            <section class="dimension-schedule-group">
+                <h3>{{ group.name }}</h3>
+                <ul>
+                    {% for team in group.teams %}
+                        <li>{{ team }}</li>
+                    {% endfor %}
+                </ul>
+            </section>
+        {% endfor %}
+    </div>
+
+    <section class="dimension-schedule-section">
+        <h2 class="major">當日賽程表</h2>
+        <div class="dimension-schedule-table-wrap">
+            <table class="dimension-schedule-table">
+                <thead>
+                    <tr>
+                        <th>時間</th>
+                        <th>場地</th>
+                        <th>階段</th>
+                        <th>對戰</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for match in schedule.matches %}
+                        <tr>
+                            <td>{{ match.time }}</td>
+                            <td>{{ match.court }}</td>
+                            <td>{{ match.stage }}</td>
+                            <td>{{ match.match }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+</article>
+{% endblock %}

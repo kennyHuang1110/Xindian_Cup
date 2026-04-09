@@ -4,7 +4,7 @@
 
 {% block header_inner %}
 <h1>公告名單</h1>
-<p>顯示目前已啟用隊伍的公開資訊，包含隊伍名稱、隊長、隊員與是否為校友。</p>
+<p>網站僅做靜態呈現，以下資料由主辦整理後統一更新，供完成 LINE 登入者查看。</p>
 {% endblock %}
 
 {% block main %}
@@ -19,41 +19,27 @@
                             <h3>{{ team.team_name }}</h3>
                             <p>隊長：{{ team.captain_name }}</p>
                         </div>
-                        <span class="dimension-status">{{ team.status.value }}</span>
                     </header>
-
-                    <div class="dimension-team-meta">
-                        <span><strong>隊伍名稱</strong>{{ team.team_name }}</span>
-                        <span><strong>隊長</strong>{{ team.captain_name }}</span>
-                        <span><strong>隊員數</strong>{{ team.members|length }}</span>
-                    </div>
-
                     <div class="dimension-member-block">
                         <h4>隊員名單</h4>
-                        {% if team.members %}
-                            <div class="dimension-member-head">
-                                <span>隊員</span>
-                                <span>是否為校友</span>
-                                <span>電話</span>
-                            </div>
-                            <ul class="dimension-member-list">
-                                {% for member in team.members %}
-                                    <li>
-                                        <strong>{{ member.name }}</strong>
-                                        <span>{{ "是" if member.is_alumni else "否" }}</span>
-                                        <span>{{ member.phone or "未提供" }}</span>
-                                    </li>
-                                {% endfor %}
-                            </ul>
-                        {% else %}
-                            <p>目前尚未新增隊員。</p>
-                        {% endif %}
+                        <div class="dimension-member-head">
+                            <span>隊員</span>
+                            <span>是否為校友</span>
+                        </div>
+                        <ul class="dimension-member-list dimension-member-list-compact">
+                            {% for member in team.members %}
+                                <li>
+                                    <strong>{{ member.name }}</strong>
+                                    <span>{{ "是" if member.is_alumni else "否" }}</span>
+                                </li>
+                            {% endfor %}
+                        </ul>
                     </div>
                 </section>
             {% endfor %}
         </div>
     {% else %}
-        <p>目前尚無已公告隊伍，之後可再回來查看最新名單。</p>
+        <p>目前尚未上架任何公告名單。</p>
     {% endif %}
 </article>
 {% endblock %}

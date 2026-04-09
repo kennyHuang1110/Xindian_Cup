@@ -1,59 +1,34 @@
-"""Authentication-related endpoints."""
+"""Authentication-related endpoints for the simplified LINE gate."""
 
-from datetime import timedelta
+from fastapi import APIRouter, HTTPException, status
 
-from fastapi import APIRouter, Depends, HTTPException, status
-from sqlalchemy.orm import Session
-
-from app.api.deps import get_db
 from app.core.config import get_settings
-from app.models.session import Session as CaptainSession
-from app.models.team import Team, TeamStatus
 from app.schemas.auth import LineEntryRequest, LineEntryResponse
-from app.services.auth import ensure_not_blacklisted, utcnow
-from app.services.security import generate_token, hash_token
 
 router = APIRouter()
 settings = get_settings()
 
 
+def _is_allowed(line_user_id: str) -> bool:
+    """Check whether the given LINE user id is allowed to access the site."""
+    allowed_ids = settings.parsed_line_login_allowed_ids
+    if not allowed_ids:
+        return True
+    return line_user_id in allowed_ids
+
+
 @router.post("/line-entry", response_model=LineEntryResponse)
-def line_entry(payload: LineEntryRequest, db: Session = Depends(get_db)) -> LineEntryResponse:
-    """Validate a captain LINE entry and issue a session token."""
-    team = db.get(Team, payload.team_id)
-    if team is None:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Team not found.")
-    if team.captain_line_user_id != payload.line_user_id:
+def line_entry(payload: LineEntryRequest) -> LineEntryResponse:
+    """Validate a LINE user id for the static-site gate."""
+    if not _is_allowed(payload.line_user_id):
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
-            detail="LINE user is not assigned to this captain.",
-        )
-    if team.status == TeamStatus.DISABLED:
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail="Captain account is disabled.",
+            detail="LINE user is not allowed to access this site.",
         )
 
-    ensure_not_blacklisted(db, "line_user_id", payload.line_user_id)
-    ensure_not_blacklisted(db, "email", team.captain_email)
-
-    raw_token = generate_token(24)
-    expires_at = utcnow() + timedelta(hours=settings.session_expire_hours)
-    session = CaptainSession(
-        team_id=team.id,
-        line_user_id=payload.line_user_id,
-        session_token_hash=hash_token(raw_token),
-        expires_at=expires_at,
-    )
-    db.add(session)
-    db.commit()
     return LineEntryResponse(
         ok=True,
-        message="Captain session created.",
-        team_id=payload.team_id,
+        message="LINE access granted.",
         line_user_id=payload.line_user_id,
-        team_status=team.status,
-        session_token=raw_token,
-        manage_url=f"/captain/manage?session_token={raw_token}",
-        expires_at=expires_at,
+        access_url="/",
     )

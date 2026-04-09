@@ -21,14 +21,15 @@
                     <h1>{{ hero_title }}</h1>
                     <p>
                         {{ hero_subtitle }}<br />
-                        提供公告名單、隊長入口、歷屆照片與比賽章程的整合平台。
+                        {{ hero_description }}
                     </p>
                 </div>
             </div>
             <nav>
                 <ul>
                     <li><a href="#intro">資訊</a></li>
-                    <li><a href="#flow">流程</a></li>
+                    <li><a href="#teams">名單</a></li>
+                    <li><a href="#schedule">賽程</a></li>
                     <li><a href="#photos">照片</a></li>
                     <li><a href="#charter">章程</a></li>
                 </ul>
@@ -41,27 +42,31 @@
                 <span class="image main">
                     <img src="{{ url_for('gallery', path='climb.jpg') }}" alt="新店盃首頁主視覺" />
                 </span>
-                <p>新店盃是以校友交流為核心的小型排球賽事，整理公告名單、隊長管理與歷屆紀錄，讓報名與後續維護都更清楚。</p>
-                <p>目前網站已提供公開名單頁、隊長管理頁、Email 驗證流程與歷屆照片頁，方便在測試環境中完整演示主要操作流程。</p>
+                <p>網站目前以靜態資訊呈現為主，隊伍名稱與隊員名單由主辦統一整理後更新，避免現場流程分散。</p>
+                <p>所有網站內容皆需先通過 LINE 登入入口後才能查看，作為對外的基本存取控管。</p>
                 <ul class="actions">
                     <li><a href="/public/teams" class="button primary">查看公告名單</a></li>
-                    <li><a href="/captain/manage" class="button">隊長入口</a></li>
+                    <li><a href="/schedule" class="button">查看賽程表</a></li>
                 </ul>
             </article>
 
-            <article id="flow">
-                <h2 class="major">參賽流程</h2>
-                <p>1. 主辦先建立隊伍與隊長資料，隊伍不可自行新增。</p>
-                <p>2. 隊長完成 LINE 驗證入口後，再進行 Email 驗證啟用隊伍。</p>
-                <p>3. 驗證完成後，隊長即可登入管理頁新增隊員與更新名單。</p>
+            <article id="teams">
+                <h2 class="major">公告方式</h2>
+                <p>目前共有 {{ team_count }} 支隊伍資料展示在網站上，隊伍名稱、隊長與隊員名單都由主辦統一整理。</p>
+                <p>隊長只需要透過 LINE 把隊伍資訊提供給你，你再手動更新資料檔，網站本身不再負責隊員新增與編輯。</p>
+            </article>
+
+            <article id="schedule">
+                <h2 class="major">賽程資訊</h2>
+                <p>比賽循環圖與賽程表已獨立成頁，方便在手機與現場直接查看分組與當日場次安排。</p>
+                <ul class="actions">
+                    <li><a href="/schedule" class="button primary">查看賽程表</a></li>
+                </ul>
             </article>
 
             <article id="photos">
                 <h2 class="major">歷屆照片</h2>
-                <span class="image main">
-                    <img src="{{ url_for('gallery', path=gallery_preview[-1].file) }}" alt="新店盃歷屆照片" />
-                </span>
-                <p>網站已整理歷屆照片頁，依年份排列並保留完整畫面，方便回顧每一屆的現場氛圍與團體合照。</p>
+                <p>保留歷屆照片頁，作為賽事紀錄與活動回顧使用。</p>
                 <ul class="actions">
                     <li><a href="/history/photos" class="button primary">查看歷屆照片</a></li>
                 </ul>
@@ -69,15 +74,14 @@
 
             <article id="charter">
                 <h2 class="major">比賽章程</h2>
-                <p>章程頁會直接讀取根目錄的 `章程.txt`，方便你後續只維護一份原始文本，就能同步更新網站顯示內容。</p>
-                <ul>
-                    <li>隊伍需由主辦建立</li>
-                    <li>隊長需完成 Email 驗證</li>
-                    <li>電話欄位為選填</li>
-                    <li>公告頁不公開敏感個資</li>
-                </ul>
+                <p>章程頁仍會直接讀取根目錄的 `章程.txt`，方便你只維護一份原始文件。</p>
                 <ul class="actions">
                     <li><a href="/charter" class="button primary">閱讀比賽章程</a></li>
+                    <li>
+                        <form method="post" action="/line/logout">
+                            <button type="submit" class="button">登出 LINE 存取</button>
+                        </form>
+                    </li>
                 </ul>
             </article>
         </div>

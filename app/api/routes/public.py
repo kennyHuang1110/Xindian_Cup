@@ -1,59 +1,38 @@
-"""Public endpoints exposed without captain authentication."""
+"""Public endpoints backed by static site content."""
 
-from pathlib import Path
-
-from fastapi import APIRouter, Depends, Request
+from fastapi import APIRouter, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
-from sqlalchemy import select
-from sqlalchemy.orm import Session, selectinload
 
-from app.api.deps import get_db
-from app.models.team import Team, TeamStatus
-from app.schemas.team import PublicTeamDetailRead, PublicTeamRead
+from app.services.site_content import get_logo_filename, load_site_content
 
 router = APIRouter()
 page_router = APIRouter()
 templates = Jinja2Templates(directory="app/templates")
-BASE_DIR = Path(__file__).resolve().parents[3]
-IMG_DIR = BASE_DIR / "img"
 
 
-def _get_logo_filename() -> str:
-    """Return the event logo filename from the img directory."""
-    for path in sorted(IMG_DIR.glob("*")):
-        if path.is_file() and "標誌" in path.stem:
-            return path.name
-    return "backgroud.png"
+@router.get("/teams")
+def list_public_teams() -> list[dict[str, object]]:
+    """Return static public teams."""
+    return load_site_content()["teams"]
 
 
-def _public_teams_query():
-    return (
-        select(Team)
-        .where(Team.status == TeamStatus.ACTIVE)
-        .options(selectinload(Team.members))
-        .order_by(Team.team_name)
-    )
-
-
-@router.get("/teams", response_model=list[PublicTeamRead])
-def list_public_teams(db: Session = Depends(get_db)) -> list[Team]:
-    """Return active teams for public announcement pages."""
-    return list(db.scalars(_public_teams_query()).all())
-
-
-@router.get("/teams/detail", response_model=list[PublicTeamDetailRead])
-def list_public_teams_detail(db: Session = Depends(get_db)) -> list[Team]:
-    """Return active teams and their public members."""
-    return list(db.scalars(_public_teams_query()).all())
+@router.get("/teams/detail")
+def list_public_teams_detail() -> list[dict[str, object]]:
+    """Return static public teams with member details."""
+    return load_site_content()["teams"]
 
 
 @page_router.get("/public/teams", response_class=HTMLResponse, include_in_schema=False)
-def public_teams_page(request: Request, db: Session = Depends(get_db)) -> HTMLResponse:
-    """Render a public-facing team and member list page."""
-    teams = list(db.scalars(_public_teams_query()).all())
+def public_teams_page(request: Request) -> HTMLResponse:
+    """Render the static public team page."""
+    content = load_site_content()
     return templates.TemplateResponse(
         request,
         "public_teams.html",
-        {"teams": teams, "app_name": "Xindian_Cup", "logo_filename": _get_logo_filename()},
+        {
+            "teams": content["teams"],
+            "app_name": "Xindian_Cup",
+            "logo_filename": get_logo_filename(),
+        },
     )

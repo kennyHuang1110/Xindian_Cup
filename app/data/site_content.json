@@ -1,0 +1,97 @@
+{
+  "hero_title": "XINDIAN_CUP",
+  "hero_subtitle": "新店盃排球賽資訊平台",
+  "hero_description": "網站以靜態資訊呈現為主，隊伍名單由主辦整理後統一更新，僅開放完成 LINE 登入的人員瀏覽。",
+  "teams": [
+    {
+      "team_name": "新店校友 A 隊",
+      "captain_name": "王小明",
+      "members": [
+        {
+          "name": "王小明",
+          "is_alumni": true
+        },
+        {
+          "name": "陳小華",
+          "is_alumni": true
+        },
+        {
+          "name": "林小安",
+          "is_alumni": false
+        }
+      ]
+    },
+    {
+      "team_name": "新店校友 B 隊",
+      "captain_name": "李小美",
+      "members": [
+        {
+          "name": "李小美",
+          "is_alumni": true
+        },
+        {
+          "name": "周大仁",
+          "is_alumni": true
+        }
+      ]
+    }
+  ],
+  "schedule": {
+    "title": "比賽循環圖與賽程表",
+    "description": "此頁整理分組循環資訊與當日賽程，方便所有通過 LINE 登入的人快速查看比賽安排。",
+    "groups": [
+      {
+        "name": "A 組",
+        "teams": ["新店校友 A 隊", "新店校友 B 隊", "新店校友 C 隊"]
+      },
+      {
+        "name": "B 組",
+        "teams": ["新店校友 D 隊", "新店校友 E 隊", "新店校友 F 隊"]
+      }
+    ],
+    "matches": [
+      {
+        "time": "09:00",
+        "court": "3F 場地 A",
+        "stage": "小組賽",
+        "match": "新店校友 A 隊 vs 新店校友 B 隊"
+      },
+      {
+        "time": "09:40",
+        "court": "3F 場地 B",
+        "stage": "小組賽",
+        "match": "新店校友 D 隊 vs 新店校友 E 隊"
+      },
+      {
+        "time": "10:20",
+        "court": "3F 場地 A",
+        "stage": "小組賽",
+        "match": "新店校友 B 隊 vs 新店校友 C 隊"
+      },
+      {
+        "time": "11:00",
+        "court": "3F 場地 B",
+        "stage": "小組賽",
+        "match": "新店校友 E 隊 vs 新店校友 F 隊"
+      },
+      {
+        "time": "13:30",
+        "court": "3F 場地 A",
+        "stage": "四強",
+        "match": "A 組第 1 vs B 組第 2"
+      },
+      {
+        "time": "14:20",
+        "court": "3F 場地 B",
+        "stage": "四強",
+        "match": "B 組第 1 vs A 組第 2"
+      },
+      {
+        "time": "15:30",
+        "court": "3F 中央場",
+        "stage": "冠軍戰",
+        "match": "四強勝者 1 vs 四強勝者 2"
+      }
+    ]
+  }
+}
