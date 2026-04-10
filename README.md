@@ -1,39 +1,25 @@
 # Xindian_Cup
 
-`Xindian_Cup` 是一個以 FastAPI + Jinja2 建立的靜態賽事資訊網站，提供：
+`Xindian_Cup` 是一個以 FastAPI + Jinja2 維護、可輸出成純靜態網站的賽事資訊平台。
 
-- LINE gate 入口
-- 公告名單頁
-- 比賽循環圖與賽程表頁
-- 歷屆照片頁
-- 比賽章程頁
-
-目前這個版本不再讓隊長直接在網站上維護資料，而是由主辦自行整理後，直接修改站內靜態資料檔。
-
-## 目前網站模式
-
-- 只有通過 LINE 登入入口的人可以查看網站內容
-- 隊伍名稱、隊長、隊員名單由主辦手動更新
-- 公告名單、賽程表、章程與歷屆照片都以靜態頁呈現
-- 適合部署在 GCP VM 上，由 Nginx 反向代理 FastAPI
+目前網站不做登入，也不提供隊長或管理者線上編輯功能。隊伍、隊員、賽程等資料由主辦自行整理後，更新靜態資料檔再重新部署。
 
 ## 主要頁面
 
-- `/line/login`：LINE gate 入口
 - `/`：首頁
 - `/public/teams`：公告名單
 - `/schedule`：比賽循環圖與賽程表
 - `/history/photos`：歷屆照片
 - `/charter`：比賽章程
-- `/health`：健康檢查
+- `/health`：健康檢查，FastAPI 模式使用
 
 ## 靜態資料位置
 
-網站主要內容由這份檔案控制：
+主要內容由這份檔案控制：
 
 - [app/data/site_content.json](/c:/Users/user/Desktop/Xindian_Cup/app/data/site_content.json)
 
-你可以在這裡修改：
+可在這裡修改：
 
 - 首頁主標與說明
 - 隊伍名稱
@@ -43,68 +29,29 @@
 - 分組循環資訊
 - 賽程表
 
-比賽章程則來自：
+比賽章程來自：
 
 - [章程.txt](/c:/Users/user/Desktop/Xindian_Cup/章程.txt)
 
-## LINE gate 設定
-
-`.env` / `.env.example` 目前支援：
-
-```env
-LINE_LOGIN_ALLOWED_IDS=
-```
-
-說明：
-
-- 若留空，測試環境中任何非空白 `line_user_id` 都可以登入
-- 若填入多個值，用逗號分隔
-- 只有名單內的 `line_user_id` 可以進站
-
-例如：
-
-```env
-LINE_LOGIN_ALLOWED_IDS=U123456789,U987654321
-```
-
-## 本機啟動
-
-```bash
-python -m venv .venv
-source .venv/bin/activate  # Windows PowerShell: .venv\Scripts\Activate.ps1
-pip install -r requirements.txt
-copy .env.example .env     # Windows PowerShell: Copy-Item .env.example .env
-uvicorn app.main:app --reload
-```
-
-開啟：
-
-- `http://127.0.0.1:8000/line/login`
-- `http://127.0.0.1:8000/`
-- `http://127.0.0.1:8000/public/teams`
-- `http://127.0.0.1:8000/schedule`
-- `http://127.0.0.1:8000/history/photos`
-- `http://127.0.0.1:8000/charter`
-- `http://127.0.0.1:8000/docs`
-
 ## Render Static Site 部署
 
-如果要部署成 Render 的純靜態網站，請使用：
+在 Render 建立 `Static Site`，設定：
 
 ```text
 Build Command:
 python scripts/build_static.py
+```
 
+```text
 Publish Directory:
 dist
 ```
 
-靜態建置會輸出：
+建置後會輸出：
 
 ```text
 dist/
   index.html
-  line/login/index.html
   public/teams/index.html
   schedule/index.html
   history/photos/index.html
@@ -113,7 +60,36 @@ dist/
   gallery/
 ```
 
-注意：純靜態網站沒有後端，LINE gate 只能做前端簡易擋門，使用 `localStorage` 記錄登入狀態。若要真正安全地驗證 LINE 身分，仍需使用 FastAPI Web Service 或其他後端。
+## 本機產生靜態站
+
+```bash
+python scripts/build_static.py
+```
+
+產物會在：
+
+```text
+dist/
+```
+
+## FastAPI 本機預覽
+
+如果仍想用 FastAPI 預覽：
+
+```bash
+python -m venv .venv
+source .venv/bin/activate  # Windows PowerShell: .venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+uvicorn app.main:app --reload
+```
+
+開啟：
+
+- `http://127.0.0.1:8000/`
+- `http://127.0.0.1:8000/public/teams`
+- `http://127.0.0.1:8000/schedule`
+- `http://127.0.0.1:8000/history/photos`
+- `http://127.0.0.1:8000/charter`
 
 ## 測試
 
@@ -124,8 +100,7 @@ pytest tests
 目前測試涵蓋：
 
 - `/health`
-- 未登入時會被導到 `/line/login`
-- LINE gate 登入 / 登出
+- 首頁
 - 公告名單頁
 - 賽程表頁
 - 歷屆照片頁
@@ -139,43 +114,11 @@ app/
   api/
   core/
   data/
-  models/
-  schemas/
   services/
   static/
   templates/
   main.py
-docs/
-infra/
-  nginx/
-  systemd/
-migrations/
+img/
 scripts/
 tests/
-img/
 ```
-
-## API 路由
-
-- `GET /health`
-- `GET /api/public/teams`
-- `GET /api/public/teams/detail`
-- `POST /api/auth/line-entry`
-
-## 部署
-
-部署草稿請看：
-
-- [docs/deployment.md](/c:/Users/user/Desktop/Xindian_Cup/docs/deployment.md)
-
-範本檔：
-
-- [infra/nginx/xindian-cup.conf.example](/c:/Users/user/Desktop/Xindian_Cup/infra/nginx/xindian-cup.conf.example)
-- [infra/systemd/xindian-cup.service](/c:/Users/user/Desktop/Xindian_Cup/infra/systemd/xindian-cup.service)
-
-## 後續可再接
-
-- 正式 LINE Login / LIFF
-- 更完整的 allowlist / 權限控管
-- 後台資料編輯介面
-- 賽程匯入與更動紀錄

@@ -103,7 +103,6 @@ def write_page(env: Environment, template_name: str, output_path: Path, context:
         app_name="Xindian_Cup",
         logo_filename=logo_filename(),
         url_for=StaticURLFor(),
-        static_site=True,
         **context,
     )
     output_path.write_text(html, encoding="utf-8")
@@ -138,7 +137,6 @@ def build() -> None:
             "team_count": len(content["teams"]),
         },
     )
-    write_page(env, "line_login.html", DIST_DIR / "line" / "login" / "index.html", {"error_message": None, "allowed_ids_configured": False})
     write_page(env, "public_teams.html", DIST_DIR / "public" / "teams" / "index.html", {"teams": content["teams"]})
     write_page(env, "schedule.html", DIST_DIR / "schedule" / "index.html", {"schedule": content["schedule"]})
     write_page(env, "history_gallery.html", DIST_DIR / "history" / "photos" / "index.html", {"gallery_photos": gallery_photos()})
