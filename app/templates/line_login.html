@@ -22,7 +22,7 @@
             {% if error_message %}
                 <p>{{ error_message }}</p>
             {% endif %}
-            <form method="post" action="/line/login" class="dimension-admin-form">
+            <form method="post" action="/line/login" class="dimension-admin-form" {% if static_site %}data-static-line-login{% endif %}>
                 <div class="fields">
                     <div class="field">
                         <label for="line_user_id">LINE User ID</label>

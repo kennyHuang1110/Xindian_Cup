@@ -87,6 +87,34 @@ uvicorn app.main:app --reload
 - `http://127.0.0.1:8000/charter`
 - `http://127.0.0.1:8000/docs`
 
+## Render Static Site 部署
+
+如果要部署成 Render 的純靜態網站，請使用：
+
+```text
+Build Command:
+python scripts/build_static.py
+
+Publish Directory:
+dist
+```
+
+靜態建置會輸出：
+
+```text
+dist/
+  index.html
+  line/login/index.html
+  public/teams/index.html
+  schedule/index.html
+  history/photos/index.html
+  charter/index.html
+  static/
+  gallery/
+```
+
+注意：純靜態網站沒有後端，LINE gate 只能做前端簡易擋門，使用 `localStorage` 記錄登入狀態。若要真正安全地驗證 LINE 身分，仍需使用 FastAPI Web Service 或其他後端。
+
 ## 測試
 
 ```bash

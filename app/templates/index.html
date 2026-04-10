@@ -78,9 +78,13 @@
                 <ul class="actions">
                     <li><a href="/charter" class="button primary">閱讀比賽章程</a></li>
                     <li>
-                        <form method="post" action="/line/logout">
-                            <button type="submit" class="button">登出 LINE 存取</button>
-                        </form>
+                        {% if static_site %}
+                            <button type="button" class="button" data-static-line-logout>登出 LINE 存取</button>
+                        {% else %}
+                            <form method="post" action="/line/logout">
+                                <button type="submit" class="button">登出 LINE 存取</button>
+                            </form>
+                        {% endif %}
                     </li>
                 </ul>
             </article>
@@ -98,5 +102,8 @@
     <script src="{{ url_for('static', path='dimension/assets/js/breakpoints.min.js') }}"></script>
     <script src="{{ url_for('static', path='dimension/assets/js/util.js') }}"></script>
     <script src="{{ url_for('static', path='dimension/assets/js/main.js') }}"></script>
+    {% if static_site %}
+    <script src="{{ url_for('static', path='js/static-gate.js') }}"></script>
+    {% endif %}
 </body>
 </html>
