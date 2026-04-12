@@ -1,97 +1,162 @@
 {
   "hero_title": "XINDIAN_CUP",
   "hero_subtitle": "新店盃排球賽資訊平台",
-  "hero_description": "網站以靜態資訊呈現為主，隊伍名單由主辦整理後統一更新，僅開放完成 LINE 登入的人員瀏覽。",
+  "hero_description": "整合公告名單、賽程表、歷屆照片與比賽章程，讓參賽者可以快速查看新店盃最新資訊。",
   "teams": [
     {
-      "team_name": "新店校友 A 隊",
-      "captain_name": "王小明",
+      "team_name": "1",
+      "captain_name": "馮卓弋",
       "members": [
-        {
-          "name": "王小明",
-          "is_alumni": true
-        },
-        {
-          "name": "陳小華",
-          "is_alumni": true
-        },
-        {
-          "name": "林小安",
-          "is_alumni": false
-        }
+        { "name": "馮卓弋", "is_alumni": true },
+        { "name": "1", "is_alumni": true },
+        { "name": "1", "is_alumni": true },
+        { "name": "1", "is_alumni": true },
+        { "name": "1", "is_alumni": true },
+        { "name": "1", "is_alumni": true },
+        { "name": "1", "is_alumni": true },
+        { "name": "1", "is_alumni": true },
+        { "name": "1", "is_alumni": true },
+        { "name": "1", "is_alumni": true },
+        { "name": "1", "is_alumni": true },
+        { "name": "1", "is_alumni": true },
+        { "name": "1", "is_alumni": true }
       ]
     },
     {
-      "team_name": "新店校友 B 隊",
-      "captain_name": "李小美",
+      "team_name": "傻眼圈圈",
+      "captain_name": "祁櫂笎",
       "members": [
-        {
-          "name": "李小美",
-          "is_alumni": true
-        },
-        {
-          "name": "周大仁",
-          "is_alumni": true
-        }
+        { "name": "祁櫂笎", "is_alumni": true },
+        { "name": "石佳興", "is_alumni": true },
+        { "name": "陳彥瑄", "is_alumni": true },
+        { "name": "段彥安", "is_alumni": true },
+        { "name": "王佐宏", "is_alumni": false },
+        { "name": "徐資晴", "is_alumni": true },
+        { "name": "朱涵毓", "is_alumni": true },
+        { "name": "瞿鈺庭", "is_alumni": true },
+        { "name": "王善儒", "is_alumni": false },
+        { "name": "目前沒有 可能會再+", "is_alumni": true },
+        { "name": "目前沒有 可能會再+", "is_alumni": false },
+        { "name": "無", "is_alumni": true },
+        { "name": "無", "is_alumni": true }
+      ]
+    },
+    {
+      "team_name": "我晚點再跟你說",
+      "captain_name": "徐婉婷",
+      "members": [
+        { "name": "徐婉婷", "is_alumni": true },
+        { "name": "謝旻璟", "is_alumni": true },
+        { "name": "簡子祺", "is_alumni": true },
+        { "name": "詹彬", "is_alumni": false },
+        { "name": "黃富揚", "is_alumni": true },
+        { "name": "胡奕守", "is_alumni": true },
+        { "name": "謝昀軒", "is_alumni": false },
+        { "name": "我晚點跟你說", "is_alumni": true },
+        { "name": "我晚點跟你說", "is_alumni": true },
+        { "name": "我晚點跟你說", "is_alumni": true },
+        { "name": "我晚點跟你說", "is_alumni": true },
+        { "name": "我晚點跟你說", "is_alumni": true },
+        { "name": "我晚點跟你說", "is_alumni": true }
+      ]
+    },
+    {
+      "team_name": "HAVG",
+      "captain_name": "林修平",
+      "members": [
+        { "name": "林修平", "is_alumni": true },
+        { "name": "簡成儒", "is_alumni": true },
+        { "name": "包省方", "is_alumni": true },
+        { "name": "徐聖淞", "is_alumni": true },
+        { "name": "謝立真", "is_alumni": true },
+        { "name": "吳純然", "is_alumni": false },
+        { "name": "徐聖鈞", "is_alumni": false },
+        { "name": "黃姿靜", "is_alumni": false },
+        { "name": "梁詔鈞", "is_alumni": true },
+        { "name": "張家彬", "is_alumni": true },
+        { "name": "陳詠心", "is_alumni": false },
+        { "name": "123", "is_alumni": true },
+        { "name": "123", "is_alumni": true }
       ]
     }
   ],
   "schedule": {
     "title": "比賽循環圖與賽程表",
-    "description": "此頁整理分組循環資訊與當日賽程，方便所有通過 LINE 登入的人快速查看比賽安排。",
-    "groups": [
+    "description": "依照 data 內的正式賽程更新，預賽為 ABC／DEF／GHI 三組單循環，各組取前 2 名晉級六強。",
+    "format_notes": [
+      "預賽分成 A、B、C 三個三角循環，每組 3 隊單循環。",
+      "各組前 2 名晉級六強，依排序成為 S1 至 S6。",
+      "六強階段為首輪淘汰、四強、5/6 名賽、季軍賽與冠軍賽。"
+    ],
+    "triangles": [
       {
-        "name": "A 組",
-        "teams": ["新店校友 A 隊", "新店校友 B 隊", "新店校友 C 隊"]
+        "name": "A 組循環",
+        "team_a": "1",
+        "team_b": "2",
+        "team_c": "3",
+        "matches": ["1 vs 2", "2 vs 3", "1 vs 3"]
       },
       {
-        "name": "B 組",
-        "teams": ["新店校友 D 隊", "新店校友 E 隊", "新店校友 F 隊"]
+        "name": "B 組循環",
+        "team_a": "4",
+        "team_b": "5",
+        "team_c": "6",
+        "matches": ["4 vs 5", "5 vs 6", "4 vs 6"]
+      },
+      {
+        "name": "C 組循環",
+        "team_a": "7",
+        "team_b": "8",
+        "team_c": "9",
+        "matches": ["7 vs 8", "8 vs 9", "7 vs 9"]
       }
     ],
+    "knockout": {
+      "title": "六強賽製圖",
+      "rounds": [
+        {
+          "name": "六強首輪",
+          "games": [
+            { "label": "G1", "match": "S3 vs S6", "time": "13:00", "court": "場地 1" },
+            { "label": "G2", "match": "S4 vs S5", "time": "13:00", "court": "場地 2" }
+          ]
+        },
+        {
+          "name": "四強與排名",
+          "games": [
+            { "label": "G3", "match": "S1 vs W1", "time": "14:00", "court": "場地 1" },
+            { "label": "G4", "match": "S2 vs W2", "time": "14:00", "court": "場地 2" },
+            { "label": "G5", "match": "L1 vs L2", "time": "14:00", "court": "場地 3" }
+          ]
+        },
+        {
+          "name": "最終名次",
+          "games": [
+            { "label": "G6", "match": "W3 vs W4", "time": "15:00", "court": "場地 1", "tag": "冠軍賽" },
+            { "label": "G7", "match": "L3 vs L4", "time": "15:00", "court": "場地 2", "tag": "季軍賽" }
+          ]
+        }
+      ]
+    },
     "matches": [
-      {
-        "time": "09:00",
-        "court": "3F 場地 A",
-        "stage": "小組賽",
-        "match": "新店校友 A 隊 vs 新店校友 B 隊"
-      },
-      {
-        "time": "09:40",
-        "court": "3F 場地 B",
-        "stage": "小組賽",
-        "match": "新店校友 D 隊 vs 新店校友 E 隊"
-      },
-      {
-        "time": "10:20",
-        "court": "3F 場地 A",
-        "stage": "小組賽",
-        "match": "新店校友 B 隊 vs 新店校友 C 隊"
-      },
-      {
-        "time": "11:00",
-        "court": "3F 場地 B",
-        "stage": "小組賽",
-        "match": "新店校友 E 隊 vs 新店校友 F 隊"
-      },
-      {
-        "time": "13:30",
-        "court": "3F 場地 A",
-        "stage": "四強",
-        "match": "A 組第 1 vs B 組第 2"
-      },
-      {
-        "time": "14:20",
-        "court": "3F 場地 B",
-        "stage": "四強",
-        "match": "B 組第 1 vs A 組第 2"
-      },
-      {
-        "time": "15:30",
-        "court": "3F 中央場",
-        "stage": "冠軍戰",
-        "match": "四強勝者 1 vs 四強勝者 2"
-      }
+      { "time": "09:00-10:00", "court": "場地 1", "stage": "預賽 A 組", "match": "1 vs 2", "referee": "3" },
+      { "time": "09:00-10:00", "court": "場地 2", "stage": "預賽 B 組", "match": "4 vs 5", "referee": "6" },
+      { "time": "09:00-10:00", "court": "場地 3", "stage": "預賽 C 組", "match": "7 vs 8", "referee": "9" },
+      { "time": "10:00-11:00", "court": "場地 1", "stage": "預賽 A 組", "match": "2 vs 3", "referee": "1" },
+      { "time": "10:00-11:00", "court": "場地 2", "stage": "預賽 B 組", "match": "5 vs 6", "referee": "4" },
+      { "time": "10:00-11:00", "court": "場地 3", "stage": "預賽 C 組", "match": "8 vs 9", "referee": "7" },
+      { "time": "11:00-12:00", "court": "場地 1", "stage": "預賽 A 組", "match": "1 vs 3", "referee": "2" },
+      { "time": "11:00-12:00", "court": "場地 2", "stage": "預賽 B 組", "match": "4 vs 6", "referee": "5" },
+      { "time": "11:00-12:00", "court": "場地 3", "stage": "預賽 C 組", "match": "7 vs 9", "referee": "8" },
+      { "time": "12:00-13:00", "court": "-", "stage": "中場整理", "match": "午休／預賽成績統計／六強種子排序", "referee": "-" },
+      { "time": "13:00-14:00", "court": "場地 1", "stage": "六強首輪", "match": "S3 vs S6", "referee": "T3A" },
+      { "time": "13:00-14:00", "court": "場地 2", "stage": "六強首輪", "match": "S4 vs S5", "referee": "T3B" },
+      { "time": "14:00-15:00", "court": "場地 1", "stage": "四強", "match": "S1 vs W1", "referee": "T3C" },
+      { "time": "14:00-15:00", "court": "場地 2", "stage": "四強", "match": "S2 vs W2", "referee": "T3A" },
+      { "time": "14:00-15:00", "court": "場地 3", "stage": "5/6 名", "match": "L1 vs L2", "referee": "T3B" },
+      { "time": "15:00-16:00", "court": "場地 1", "stage": "冠軍賽", "match": "W3 vs W4", "referee": "T3C" },
+      { "time": "15:00-16:00", "court": "場地 2", "stage": "季軍賽", "match": "L3 vs L4", "referee": "T3A" },
+      { "time": "16:00-17:00", "court": "-", "stage": "收尾", "match": "頒獎／場地整理／彈性補賽時段", "referee": "-" }
     ]
   }
 }

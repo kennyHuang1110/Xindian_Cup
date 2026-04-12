@@ -9,44 +9,85 @@
 
 {% block main %}
 <article id="schedule" class="active article-static article-wide">
-    <h2 class="major">比賽循環圖</h2>
-    <div class="dimension-schedule-groups">
-        {% for group in schedule.groups %}
-            <section class="dimension-schedule-group">
-                <h3>{{ group.name }}</h3>
-                <ul>
-                    {% for team in group.teams %}
-                        <li>{{ team }}</li>
-                    {% endfor %}
-                </ul>
-            </section>
-        {% endfor %}
-    </div>
+    <section class="dimension-schedule-section">
+        <h2 class="major">三組循環圖</h2>
+        <p class="dimension-schedule-lead">預賽採三個三角循環，各組 3 隊單循環，依正式賽程表進行。</p>
+        <div class="dimension-format-notes">
+            {% for note in schedule.format_notes %}
+                <span>{{ note }}</span>
+            {% endfor %}
+        </div>
+        <div class="dimension-triangle-grid">
+            {% for triangle in schedule.triangles %}
+                <section class="dimension-triangle-card">
+                    <header>
+                        <h3>{{ triangle.name }}</h3>
+                    </header>
+                    <div class="dimension-triangle-stage">
+                        <div class="triangle-edge triangle-edge-left"></div>
+                        <div class="triangle-edge triangle-edge-right"></div>
+                        <div class="triangle-edge triangle-edge-bottom"></div>
+                        <div class="triangle-node triangle-node-top">{{ triangle.team_a }}</div>
+                        <div class="triangle-node triangle-node-left">{{ triangle.team_b }}</div>
+                        <div class="triangle-node triangle-node-right">{{ triangle.team_c }}</div>
+                    </div>
+                    <ul class="dimension-triangle-matches">
+                        {% for match in triangle.matches %}
+                            <li>{{ match }}</li>
+                        {% endfor %}
+                    </ul>
+                </section>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="dimension-schedule-section">
+        <h2 class="major">{{ schedule.knockout.title }}</h2>
+        <figure class="dimension-knockout-figure">
+            <div class="dimension-knockout-image-wrap">
+                <img src="{{ url_for('gallery', path='six.png') }}" alt="六強賽程圖" class="dimension-knockout-image" />
+            </div>
+            <figcaption>六強賽程圖以你提供的圖檔呈現，實際時間與場地安排以下方賽程表為準。</figcaption>
+        </figure>
+    </section>
 
     <section class="dimension-schedule-section">
         <h2 class="major">當日賽程表</h2>
-        <div class="dimension-schedule-table-wrap">
-            <table class="dimension-schedule-table">
-                <thead>
-                    <tr>
-                        <th>時間</th>
-                        <th>場地</th>
-                        <th>階段</th>
-                        <th>對戰</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for match in schedule.matches %}
-                        <tr>
-                            <td>{{ match.time }}</td>
-                            <td>{{ match.court }}</td>
-                            <td>{{ match.stage }}</td>
-                            <td>{{ match.match }}</td>
-                        </tr>
+        <div class="dimension-court-board">
+            <div class="dimension-court-board-head">
+                <div class="dimension-court-time-head">時間</div>
+                {% for court in schedule_columns.courts %}
+                    <div class="dimension-court-head">{{ court }}</div>
+                {% endfor %}
+            </div>
+            {% for row in schedule_columns.rows %}
+                <div class="dimension-court-row">
+                    <div class="dimension-court-time">{{ row.time }}</div>
+                    {% for slot in row.slots %}
+                        <div class="dimension-court-cell">
+                            {% if slot %}
+                                <p class="dimension-court-stage">{{ slot.stage }}</p>
+                                <strong>{{ slot.match }}</strong>
+                                <span>裁判｜{{ slot.referee }}</span>
+                            {% else %}
+                                <span class="dimension-court-empty">-</span>
+                            {% endif %}
+                        </div>
                     {% endfor %}
-                </tbody>
-            </table>
+                </div>
+            {% endfor %}
         </div>
+
+        {% if schedule_columns.notes %}
+        <div class="dimension-schedule-notes">
+            {% for note in schedule_columns.notes %}
+                <article class="dimension-schedule-note">
+                    <strong>{{ note.time }}</strong>
+                    <span>{{ note.match }}</span>
+                </article>
+            {% endfor %}
+        </div>
+        {% endif %}
     </section>
 </article>
 {% endblock %}

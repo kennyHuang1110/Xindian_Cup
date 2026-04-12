@@ -18,10 +18,10 @@
             </div>
             <div class="content">
                 <div class="inner">
-                    <h1>{{ hero_title }}</h1>
+                    <h1>XINDIAN_CUP</h1>
                     <p>
-                        {{ hero_subtitle }}<br />
-                        {{ hero_description }}
+                        新店盃排球賽資訊平台<br />
+                        整合公告名單、賽程表、歷屆照片與比賽章程，方便大家快速查看新店盃最新資訊。
                     </p>
                 </div>
             </div>
@@ -40,10 +40,10 @@
             <article id="intro">
                 <h2 class="major">活動資訊</h2>
                 <span class="image main">
-                    <img src="{{ url_for('gallery', path='climb.jpg') }}" alt="新店盃首頁主視覺" />
+                    <img src="{{ url_for('gallery', path='climb.jpg') }}" alt="新店盃活動主視覺" />
                 </span>
-                <p>網站目前以靜態資訊呈現為主，隊伍名稱與隊員名單由主辦統一整理後更新，避免現場流程分散。</p>
-                <p>所有網站內容都可直接瀏覽，方便隊伍與參賽者快速查看最新公告。</p>
+                <p>新店盃是以新店高中校友交流為核心的混合排球賽事，透過比賽讓不同屆次的球友重新回到球場相聚。</p>
+                <p>本站整理活動公告、隊伍名單、賽程表、歷屆照片與比賽章程，方便大家在賽前與比賽當天快速查閱資訊。</p>
                 <ul class="actions">
                     <li><a href="/public/teams" class="button primary">查看公告名單</a></li>
                     <li><a href="/schedule" class="button">查看賽程表</a></li>
@@ -53,7 +53,7 @@
             <article id="teams">
                 <h2 class="major">公告方式</h2>
                 <p>目前共有 {{ team_count }} 支隊伍資料展示在網站上，隊伍名稱、隊長與隊員名單都由主辦統一整理。</p>
-                <p>隊長只需要透過 LINE 把隊伍資訊提供給你，你再手動更新資料檔，網站本身不再負責隊員新增與編輯。</p>
+                <p>已完成報名的隊伍會直接公告在名單頁，供大家查看。</p>
             </article>
 
             <article id="schedule">
@@ -66,7 +66,7 @@
 
             <article id="photos">
                 <h2 class="major">歷屆照片</h2>
-                <p>保留歷屆照片頁，作為賽事紀錄與活動回顧使用。</p>
+                <p>歷屆照片頁保留過往賽事紀錄，讓大家回顧每一屆新店盃的比賽與合照。</p>
                 <ul class="actions">
                     <li><a href="/history/photos" class="button primary">查看歷屆照片</a></li>
                 </ul>
@@ -74,7 +74,7 @@
 
             <article id="charter">
                 <h2 class="major">比賽章程</h2>
-                <p>章程頁仍會直接讀取根目錄的 `章程.txt`，方便你只維護一份原始文件。</p>
+                <p>章程頁整理比賽資格、賽制、規則與注意事項，請參賽隊伍賽前先行閱讀。</p>
                 <ul class="actions">
                     <li><a href="/charter" class="button primary">閱讀比賽章程</a></li>
                 </ul>

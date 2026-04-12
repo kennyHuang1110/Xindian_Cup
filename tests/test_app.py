@@ -7,7 +7,7 @@ def test_health(client) -> None:
     assert response.json()["status"] == "ok"
 
 
-def test_public_pages_render_without_login(client) -> None:
+def test_public_pages_render(client) -> None:
     for path in ["/", "/public/teams", "/history/photos", "/charter", "/schedule"]:
         response = client.get(path)
         assert response.status_code == 200
@@ -18,15 +18,16 @@ def test_index_page_renders(client) -> None:
     assert response.status_code == 200
     assert "XINDIAN_CUP" in response.text
     assert "查看賽程表" in response.text
+    assert "報名表" not in response.text
 
 
-def test_public_teams_page_shows_static_team_roster(client) -> None:
+def test_public_teams_page_shows_team_captain_and_members_only(client) -> None:
     response = client.get("/public/teams")
     assert response.status_code == 200
-    assert "新店校友 A 隊" in response.text
-    assert "隊長：王小明" in response.text
-    assert "陳小華" in response.text
-    assert "是否為校友" in response.text
+    assert "傻眼圈圈" in response.text
+    assert "隊長：祁櫂笎" in response.text
+    assert "石佳興" in response.text
+    assert "是否為校友" not in response.text
 
 
 def test_schedule_page_renders(client) -> None:
@@ -35,7 +36,8 @@ def test_schedule_page_renders(client) -> None:
     assert "比賽循環圖與賽程表" in response.text
     assert "A 組" in response.text
     assert "09:00" in response.text
-    assert "冠軍戰" in response.text
+    assert "W3 vs W4" in response.text
+    assert "T3A" in response.text
 
 
 def test_history_and_charter_pages_render(client) -> None:
@@ -54,5 +56,5 @@ def test_public_api_returns_static_team_data(client) -> None:
     response = client.get("/api/public/teams")
     assert response.status_code == 200
     payload = response.json()
-    assert payload[0]["team_name"] == "新店校友 A 隊"
-    assert payload[0]["members"][0]["name"] == "王小明"
+    assert payload[0]["team_name"] == "1"
+    assert payload[0]["members"][0]["name"] == "馮卓弋"

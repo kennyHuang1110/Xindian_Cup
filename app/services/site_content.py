@@ -1,4 +1,4 @@
-"""Helpers for loading static site content."""
+"""Helpers for loading public site content."""
 
 import json
 from pathlib import Path
@@ -19,7 +19,7 @@ def get_logo_filename() -> str:
 
 
 def get_gallery_photos() -> list[dict[str, str | int]]:
-    """Return curated gallery metadata for event pages sorted by year."""
+    """Return gallery metadata for the history page."""
     photos = [
         {"year": "2012", "sort_year": 2012, "sort_order": 1, "file": "2012.jpg", "caption": "初代新店盃合照與賽事紀錄。"},
         {"year": "2013", "sort_year": 2013, "sort_order": 1, "file": "2013.jpg", "caption": "校友交流與比賽氣氛逐漸成形。"},
@@ -53,14 +53,16 @@ def load_charter() -> dict[str, object]:
             current_section = {"heading": line, "items": []}
             sections.append(current_section)
             continue
+
         if current_section is None:
             current_section = {"heading": "章程內容", "items": []}
             sections.append(current_section)
+
         current_section["items"].append(line)
 
     return {"title": title, "sections": sections}
 
 
 def load_site_content() -> dict[str, Any]:
-    """Load static site content from the JSON data file."""
+    """Load public site content from JSON."""
     return json.loads(DATA_FILE.read_text(encoding="utf-8"))

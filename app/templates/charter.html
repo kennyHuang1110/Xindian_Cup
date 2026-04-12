@@ -15,7 +15,21 @@
             <section class="dimension-section-card">
                 <h3>{{ section["heading"] }}</h3>
                 {% for item in section["items"] %}
-                    <p>{{ item }}</p>
+                    {% if item.startswith("主辦人：") %}
+                        {% set name = item.split("：", 1)[1] %}
+                        <p class="charter-contact charter-contact-host">
+                            <span class="charter-contact-label">主辦人</span>
+                            <span class="charter-contact-name charter-contact-name-small">{{ name }}</span>
+                        </p>
+                    {% elif item.startswith("特別協辦：") %}
+                        {% set name = item.split("：", 1)[1] %}
+                        <p class="charter-contact charter-contact-support">
+                            <span class="charter-contact-label">特別協辦</span>
+                            <span class="charter-contact-name charter-contact-name-large">{{ name }}</span>
+                        </p>
+                    {% else %}
+                        <p>{{ item }}</p>
+                    {% endif %}
                 {% endfor %}
             </section>
         {% endfor %}

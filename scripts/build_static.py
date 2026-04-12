@@ -45,6 +45,36 @@ def load_json() -> dict[str, Any]:
     return json.loads(DATA_FILE.read_text(encoding="utf-8"))
 
 
+def build_schedule_columns(schedule: dict[str, Any]) -> dict[str, Any]:
+    """Build a three-court schedule matrix for template rendering."""
+    courts = ["場地 1", "場地 2", "場地 3"]
+    rows: list[dict[str, Any]] = []
+    time_slots: dict[str, dict[str, Any]] = {}
+    notes: list[dict[str, Any]] = []
+
+    for match in schedule["matches"]:
+        time = match["time"]
+        court = match["court"]
+        if court not in courts:
+            notes.append(match)
+            continue
+
+        if time not in time_slots:
+            time_slots[time] = {"time": time, "slots": {name: None for name in courts}}
+
+        time_slots[time]["slots"][court] = match
+
+    for item in time_slots.values():
+        rows.append(
+            {
+                "time": item["time"],
+                "slots": [item["slots"][court] for court in courts],
+            }
+        )
+
+    return {"courts": courts, "rows": rows, "notes": notes}
+
+
 def logo_filename() -> str:
     """Return the event logo filename."""
     for path in sorted(IMG_DIR.glob("*")):
@@ -131,14 +161,19 @@ def build() -> None:
         "index.html",
         DIST_DIR / "index.html",
         {
-            "hero_title": content["hero_title"],
-            "hero_subtitle": content["hero_subtitle"],
-            "hero_description": content["hero_description"],
             "team_count": len(content["teams"]),
         },
     )
     write_page(env, "public_teams.html", DIST_DIR / "public" / "teams" / "index.html", {"teams": content["teams"]})
-    write_page(env, "schedule.html", DIST_DIR / "schedule" / "index.html", {"schedule": content["schedule"]})
+    write_page(
+        env,
+        "schedule.html",
+        DIST_DIR / "schedule" / "index.html",
+        {
+            "schedule": content["schedule"],
+            "schedule_columns": build_schedule_columns(content["schedule"]),
+        },
+    )
     write_page(env, "history_gallery.html", DIST_DIR / "history" / "photos" / "index.html", {"gallery_photos": gallery_photos()})
     write_page(env, "charter.html", DIST_DIR / "charter" / "index.html", {"charter": load_charter()})
     copy_assets()

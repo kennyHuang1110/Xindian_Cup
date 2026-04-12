@@ -1324,6 +1324,10 @@ body.page-static .article-wide {
     grid-template-columns: 1.4fr 0.8fr;
 }
 
+.dimension-member-list-single li {
+    grid-template-columns: 1fr;
+}
+
 .dimension-member-list li:first-child {
     border-top: 0;
 }
@@ -1398,6 +1402,398 @@ body.page-static .article-wide {
     font-size: 0.78rem;
     letter-spacing: 0.08rem;
     text-transform: uppercase;
+}
+
+.dimension-schedule-lead {
+    margin: 0 0 1rem;
+}
+
+.dimension-format-notes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+}
+
+.dimension-format-notes span {
+    display: inline-flex;
+    padding: 0.55rem 0.9rem;
+    border: 1px solid rgba(255, 255, 255, 0.24);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.06);
+    font-size: 0.85rem;
+    line-height: 1.5;
+}
+
+.dimension-triangle-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.25rem;
+}
+
+.dimension-triangle-card,
+.dimension-bracket-column {
+    border: 1px solid rgba(255, 255, 255, 0.24);
+    border-radius: 0.35rem;
+    padding: 1.25rem;
+}
+
+.dimension-triangle-card h3,
+.dimension-bracket-column h3 {
+    margin: 0 0 1rem;
+}
+
+.dimension-triangle-stage {
+    position: relative;
+    height: 15rem;
+    margin-bottom: 1rem;
+}
+
+.triangle-edge {
+    position: absolute;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.58);
+    transform-origin: left center;
+    box-shadow: 0 0 18px rgba(255, 255, 255, 0.12);
+}
+
+.triangle-edge-left {
+    top: 2.4rem;
+    left: calc(50% - 1px);
+    width: 6rem;
+    transform: rotate(122deg);
+}
+
+.triangle-edge-right {
+    top: 2.4rem;
+    left: 50%;
+    width: 6rem;
+    transform: rotate(58deg);
+}
+
+.triangle-edge-bottom {
+    top: 10.75rem;
+    left: calc(50% - 4.9rem);
+    width: 9.8rem;
+}
+
+.triangle-node {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 4.8rem;
+    min-height: 4.8rem;
+    padding: 0.7rem;
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+    text-align: center;
+    font-weight: 800;
+    backdrop-filter: blur(6px);
+}
+
+.triangle-node-top {
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.triangle-node-left {
+    left: calc(50% - 6.2rem);
+    bottom: 1.55rem;
+}
+
+.triangle-node-right {
+    right: calc(50% - 6.2rem);
+    bottom: 1.55rem;
+}
+
+.dimension-triangle-matches {
+    margin: 0;
+    padding-left: 1.1rem;
+}
+
+.dimension-triangle-matches li + li {
+    margin-top: 0.35rem;
+}
+
+.dimension-bracket-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.25rem;
+}
+
+.dimension-bracket-games {
+    display: grid;
+    gap: 0.9rem;
+}
+
+.dimension-bracket-game {
+    display: grid;
+    gap: 0.35rem;
+    padding: 0.95rem 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 0.35rem;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.dimension-bracket-label {
+    margin: 0;
+    font-size: 0.76rem;
+    letter-spacing: 0.12rem;
+    text-transform: uppercase;
+    opacity: 0.75;
+}
+
+.dimension-bracket-game strong,
+.dimension-bracket-game span,
+.dimension-bracket-game em {
+    display: block;
+}
+
+.dimension-bracket-game span {
+    font-size: 0.88rem;
+    opacity: 0.82;
+}
+
+.dimension-bracket-game em {
+    font-style: normal;
+    color: #ffd98d;
+    font-weight: 700;
+}
+
+.dimension-knockout-figure {
+    margin: 0;
+}
+
+.dimension-knockout-image-wrap {
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.24);
+    border-radius: 0.5rem;
+    background: rgba(255, 255, 255, 0.06);
+    box-shadow: 0 24px 60px rgba(12, 38, 67, 0.12);
+}
+
+.dimension-knockout-image {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.dimension-knockout-figure figcaption {
+    margin-top: 0.9rem;
+    color: rgba(255, 255, 255, 0.72);
+    line-height: 1.7;
+}
+
+.dimension-knockout-board {
+    display: grid;
+    gap: 1.5rem;
+}
+
+.dimension-knockout-finals {
+    position: relative;
+    display: grid;
+    justify-content: center;
+    gap: 0.85rem;
+    max-width: 32rem;
+    margin: 0 auto;
+}
+
+.dimension-knockout-finals::before {
+    content: "";
+    position: absolute;
+    top: -1.4rem;
+    left: 50%;
+    width: 2px;
+    height: 1.4rem;
+    background: rgba(255, 255, 255, 0.48);
+    transform: translateX(-50%);
+}
+
+.dimension-bracket-game-featured {
+    min-width: 21rem;
+    text-align: center;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.06));
+}
+
+.dimension-bracket-game-secondary {
+    text-align: center;
+    border-style: dashed;
+}
+
+.dimension-knockout-tree {
+    display: grid;
+    grid-template-columns: 1fr 0.72fr 1fr;
+    gap: 1.2rem;
+    align-items: end;
+}
+
+.dimension-knockout-branch {
+    position: relative;
+    display: grid;
+    gap: 2.2rem;
+    padding-top: 1.4rem;
+}
+
+.dimension-knockout-branch::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 2px;
+    height: 1.3rem;
+    background: rgba(255, 255, 255, 0.4);
+    transform: translateX(-50%);
+}
+
+.dimension-knockout-branch::after {
+    content: "";
+    position: absolute;
+    top: 1.3rem;
+    width: 50%;
+    height: calc(100% - 4.9rem);
+    border-top: 2px solid rgba(255, 255, 255, 0.4);
+    border-bottom: 2px solid rgba(255, 255, 255, 0.4);
+}
+
+.dimension-knockout-branch-left::after {
+    right: 0;
+    border-right: 2px solid rgba(255, 255, 255, 0.4);
+    border-left: 0;
+    border-top-right-radius: 1.5rem;
+    border-bottom-right-radius: 1.5rem;
+}
+
+.dimension-knockout-branch-right::after {
+    left: 0;
+    border-left: 2px solid rgba(255, 255, 255, 0.4);
+    border-right: 0;
+    border-top-left-radius: 1.5rem;
+    border-bottom-left-radius: 1.5rem;
+}
+
+.dimension-bracket-game-semi {
+    margin-inline: auto;
+    width: min(100%, 15rem);
+}
+
+.dimension-bracket-game-entry {
+    margin-top: 0.5rem;
+}
+
+.dimension-knockout-center {
+    align-self: center;
+}
+
+.dimension-bracket-game-ranking {
+    text-align: center;
+    background: rgba(73, 178, 255, 0.08);
+}
+
+.dimension-court-board {
+    display: grid;
+    gap: 0.85rem;
+}
+
+.dimension-court-board-head,
+.dimension-court-row {
+    display: grid;
+    grid-template-columns: 10rem repeat(3, minmax(0, 1fr));
+    gap: 0.85rem;
+}
+
+.dimension-court-time-head,
+.dimension-court-head {
+    padding: 0.85rem 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.24);
+    border-radius: 0.35rem;
+    background: rgba(255, 255, 255, 0.05);
+    font-size: 0.82rem;
+    letter-spacing: 0.1rem;
+    text-transform: uppercase;
+}
+
+.dimension-court-time,
+.dimension-court-cell {
+    min-height: 7rem;
+    padding: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 0.35rem;
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.dimension-court-time {
+    display: flex;
+    align-items: center;
+    font-weight: 700;
+}
+
+.dimension-court-cell {
+    display: grid;
+    align-content: start;
+    gap: 0.45rem;
+}
+
+.dimension-court-stage {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.72);
+    font-size: 0.82rem;
+    letter-spacing: 0.08rem;
+}
+
+.dimension-court-cell strong,
+.dimension-court-cell span {
+    display: block;
+}
+
+.dimension-court-cell strong {
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.dimension-court-cell span {
+    font-size: 0.88rem;
+    color: rgba(255, 255, 255, 0.76);
+}
+
+.dimension-court-empty {
+    align-self: center;
+}
+
+.dimension-schedule-notes {
+    display: grid;
+    gap: 0.8rem;
+    margin-top: 1rem;
+}
+
+.dimension-schedule-note {
+    display: grid;
+    gap: 0.3rem;
+    padding: 0.95rem 1rem;
+    border: 1px dashed rgba(255, 255, 255, 0.24);
+    border-radius: 0.35rem;
+}
+
+.charter-contact {
+    display: flex;
+    align-items: baseline;
+    gap: 0.8rem;
+}
+
+.charter-contact-label {
+    min-width: 5rem;
+    color: rgba(255, 255, 255, 0.78);
+}
+
+.charter-contact-name-small {
+    font-size: 0.92rem;
+}
+
+.charter-contact-name-large {
+    font-size: 1.25rem;
+    font-weight: 800;
 }
 
 .dimension-admin-form .field label {
@@ -1568,5 +1964,48 @@ body.page-static .article-wide {
 
     .dimension-schedule-groups {
         grid-template-columns: 1fr;
+    }
+
+    .dimension-triangle-grid,
+    .dimension-bracket-grid,
+    .dimension-knockout-tree {
+        grid-template-columns: 1fr;
+    }
+
+    .dimension-court-board-head,
+    .dimension-court-row {
+        grid-template-columns: 1fr;
+    }
+
+    .dimension-knockout-branch::after,
+    .dimension-knockout-branch::before,
+    .dimension-knockout-finals::before {
+        display: none;
+    }
+
+    .dimension-bracket-game-featured {
+        min-width: 0;
+    }
+
+    .dimension-triangle-stage {
+        height: 13.5rem;
+    }
+
+    .triangle-edge-left,
+    .triangle-edge-right {
+        width: 5rem;
+    }
+
+    .triangle-edge-bottom {
+        left: calc(50% - 4.2rem);
+        width: 8.4rem;
+    }
+
+    .triangle-node-left {
+        left: calc(50% - 5.2rem);
+    }
+
+    .triangle-node-right {
+        right: calc(50% - 5.2rem);
     }
 }

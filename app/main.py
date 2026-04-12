@@ -27,6 +27,37 @@ app.mount("/gallery", StaticFiles(directory="img"), name="gallery")
 templates = Jinja2Templates(directory="app/templates")
 
 
+def build_schedule_columns(schedule: dict[str, object]) -> dict[str, object]:
+    """Build a three-court schedule matrix for template rendering."""
+    courts = ["場地 1", "場地 2", "場地 3"]
+    rows: list[dict[str, object]] = []
+
+    time_slots: dict[str, dict[str, object]] = {}
+    notes: list[dict[str, str]] = []
+
+    for match in schedule["matches"]:
+        time = match["time"]
+        court = match["court"]
+        if court not in courts:
+            notes.append(match)
+            continue
+
+        if time not in time_slots:
+            time_slots[time] = {"time": time, "slots": {name: None for name in courts}}
+
+        time_slots[time]["slots"][court] = match
+
+    for item in time_slots.values():
+        rows.append(
+            {
+                "time": item["time"],
+                "slots": [item["slots"][court] for court in courts],
+            }
+        )
+
+    return {"courts": courts, "rows": rows, "notes": notes}
+
+
 def render_page(request: Request, template_name: str, context: dict[str, object]) -> HTMLResponse:
     """Render a page template with shared site context."""
     return templates.TemplateResponse(
@@ -48,9 +79,6 @@ async def index(request: Request) -> HTMLResponse:
         request,
         "index.html",
         {
-            "hero_title": site_content["hero_title"],
-            "hero_subtitle": site_content["hero_subtitle"],
-            "hero_description": site_content["hero_description"],
             "team_count": len(site_content["teams"]),
         },
     )
@@ -69,12 +97,15 @@ async def public_teams_page(request: Request) -> HTMLResponse:
 @app.get("/schedule", response_class=HTMLResponse, tags=["pages"])
 async def schedule_page(request: Request) -> HTMLResponse:
     """Render the static schedule page."""
+    schedule = load_site_content()["schedule"]
     return render_page(
         request,
         "schedule.html",
-        {"schedule": load_site_content()["schedule"]},
+        {
+            "schedule": schedule,
+            "schedule_columns": build_schedule_columns(schedule),
+        },
     )
-
 
 @app.get("/history/photos", response_class=HTMLResponse, tags=["pages"])
 async def history_photos(request: Request) -> HTMLResponse:

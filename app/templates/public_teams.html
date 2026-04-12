@@ -4,7 +4,7 @@
 
 {% block header_inner %}
 <h1>公告名單</h1>
-<p>網站僅做靜態呈現，以下資料由主辦整理後統一更新，供參賽者查看。</p>
+<p>以下顯示已完成報名的隊伍資料，僅提供隊名、隊長與隊員名單。</p>
 {% endblock %}
 
 {% block main %}
@@ -22,15 +22,10 @@
                     </header>
                     <div class="dimension-member-block">
                         <h4>隊員名單</h4>
-                        <div class="dimension-member-head">
-                            <span>隊員</span>
-                            <span>是否為校友</span>
-                        </div>
-                        <ul class="dimension-member-list dimension-member-list-compact">
+                        <ul class="dimension-member-list dimension-member-list-single">
                             {% for member in team.members %}
                                 <li>
                                     <strong>{{ member.name }}</strong>
-                                    <span>{{ "是" if member.is_alumni else "否" }}</span>
                                 </li>
                             {% endfor %}
                         </ul>
@@ -39,7 +34,7 @@
             {% endfor %}
         </div>
     {% else %}
-        <p>目前尚未上架任何公告名單。</p>
+        <p>目前尚未公告任何隊伍。</p>
     {% endif %}
 </article>
 {% endblock %}
