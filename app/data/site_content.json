@@ -7,76 +7,348 @@
       "team_name": "1",
       "captain_name": "馮卓弋",
       "members": [
-        { "name": "馮卓弋", "is_alumni": true },
-        { "name": "1", "is_alumni": true },
-        { "name": "1", "is_alumni": true },
-        { "name": "1", "is_alumni": true },
-        { "name": "1", "is_alumni": true },
-        { "name": "1", "is_alumni": true },
-        { "name": "1", "is_alumni": true },
-        { "name": "1", "is_alumni": true },
-        { "name": "1", "is_alumni": true },
-        { "name": "1", "is_alumni": true },
-        { "name": "1", "is_alumni": true },
-        { "name": "1", "is_alumni": true },
-        { "name": "1", "is_alumni": true }
+        {
+          "name": "馮卓弋",
+          "is_alumni": true
+        },
+        {
+          "name": "1",
+          "is_alumni": true
+        },
+        {
+          "name": "1",
+          "is_alumni": true
+        },
+        {
+          "name": "1",
+          "is_alumni": true
+        },
+        {
+          "name": "1",
+          "is_alumni": true
+        },
+        {
+          "name": "1",
+          "is_alumni": true
+        },
+        {
+          "name": "1",
+          "is_alumni": true
+        },
+        {
+          "name": "1",
+          "is_alumni": true
+        },
+        {
+          "name": "1",
+          "is_alumni": true
+        },
+        {
+          "name": "1",
+          "is_alumni": true
+        },
+        {
+          "name": "1",
+          "is_alumni": true
+        },
+        {
+          "name": "1",
+          "is_alumni": true
+        },
+        {
+          "name": "1",
+          "is_alumni": true
+        }
       ]
     },
     {
       "team_name": "傻眼圈圈",
       "captain_name": "祁櫂笎",
       "members": [
-        { "name": "祁櫂笎", "is_alumni": true },
-        { "name": "石佳興", "is_alumni": true },
-        { "name": "陳彥瑄", "is_alumni": true },
-        { "name": "段彥安", "is_alumni": true },
-        { "name": "王佐宏", "is_alumni": false },
-        { "name": "徐資晴", "is_alumni": true },
-        { "name": "朱涵毓", "is_alumni": true },
-        { "name": "瞿鈺庭", "is_alumni": true },
-        { "name": "王善儒", "is_alumni": false },
-        { "name": "目前沒有 可能會再+", "is_alumni": true },
-        { "name": "目前沒有 可能會再+", "is_alumni": false },
-        { "name": "無", "is_alumni": true },
-        { "name": "無", "is_alumni": true }
+        {
+          "name": "祁櫂笎",
+          "is_alumni": true
+        },
+        {
+          "name": "石佳興",
+          "is_alumni": true
+        },
+        {
+          "name": "陳彥瑄",
+          "is_alumni": true
+        },
+        {
+          "name": "段彥安",
+          "is_alumni": true
+        },
+        {
+          "name": "王佐宏",
+          "is_alumni": false
+        },
+        {
+          "name": "徐資晴",
+          "is_alumni": true
+        },
+        {
+          "name": "朱涵毓",
+          "is_alumni": true
+        },
+        {
+          "name": "瞿鈺庭",
+          "is_alumni": true
+        },
+        {
+          "name": "王善儒",
+          "is_alumni": false
+        },
+        {
+          "name": "目前沒有 可能會再+",
+          "is_alumni": true
+        },
+        {
+          "name": "目前沒有 可能會再+",
+          "is_alumni": false
+        },
+        {
+          "name": "無",
+          "is_alumni": true
+        },
+        {
+          "name": "無",
+          "is_alumni": true
+        }
       ]
     },
     {
       "team_name": "我晚點再跟你說",
       "captain_name": "徐婉婷",
       "members": [
-        { "name": "徐婉婷", "is_alumni": true },
-        { "name": "謝旻璟", "is_alumni": true },
-        { "name": "簡子祺", "is_alumni": true },
-        { "name": "詹彬", "is_alumni": false },
-        { "name": "黃富揚", "is_alumni": true },
-        { "name": "胡奕守", "is_alumni": true },
-        { "name": "謝昀軒", "is_alumni": false },
-        { "name": "我晚點跟你說", "is_alumni": true },
-        { "name": "我晚點跟你說", "is_alumni": true },
-        { "name": "我晚點跟你說", "is_alumni": true },
-        { "name": "我晚點跟你說", "is_alumni": true },
-        { "name": "我晚點跟你說", "is_alumni": true },
-        { "name": "我晚點跟你說", "is_alumni": true }
+        {
+          "name": "徐婉婷",
+          "is_alumni": true
+        },
+        {
+          "name": "謝旻璟",
+          "is_alumni": true
+        },
+        {
+          "name": "簡子祺",
+          "is_alumni": true
+        },
+        {
+          "name": "詹彬",
+          "is_alumni": false
+        },
+        {
+          "name": "黃富揚",
+          "is_alumni": true
+        },
+        {
+          "name": "胡奕守",
+          "is_alumni": true
+        },
+        {
+          "name": "謝昀軒",
+          "is_alumni": false
+        },
+        {
+          "name": "阿邊",
+          "is_alumni": true
+        },
+        {
+          "name": "我晚點跟你說",
+          "is_alumni": true
+        },
+        {
+          "name": "我晚點跟你說",
+          "is_alumni": true
+        },
+        {
+          "name": "我晚點跟你說",
+          "is_alumni": true
+        },
+        {
+          "name": "我晚點跟你說",
+          "is_alumni": true
+        },
+        {
+          "name": "我晚點跟你說",
+          "is_alumni": true
+        }
       ]
     },
     {
       "team_name": "HAVG",
       "captain_name": "林修平",
       "members": [
-        { "name": "林修平", "is_alumni": true },
-        { "name": "簡成儒", "is_alumni": true },
-        { "name": "包省方", "is_alumni": true },
-        { "name": "徐聖淞", "is_alumni": true },
-        { "name": "謝立真", "is_alumni": true },
-        { "name": "吳純然", "is_alumni": false },
-        { "name": "徐聖鈞", "is_alumni": false },
-        { "name": "黃姿靜", "is_alumni": false },
-        { "name": "梁詔鈞", "is_alumni": true },
-        { "name": "張家彬", "is_alumni": true },
-        { "name": "陳詠心", "is_alumni": false },
-        { "name": "123", "is_alumni": true },
-        { "name": "123", "is_alumni": true }
+        {
+          "name": "林修平",
+          "is_alumni": true
+        },
+        {
+          "name": "簡成儒",
+          "is_alumni": true
+        },
+        {
+          "name": "包省方",
+          "is_alumni": true
+        },
+        {
+          "name": "徐聖淞",
+          "is_alumni": true
+        },
+        {
+          "name": "謝立真",
+          "is_alumni": true
+        },
+        {
+          "name": "吳純然",
+          "is_alumni": false
+        },
+        {
+          "name": "徐聖鈞",
+          "is_alumni": false
+        },
+        {
+          "name": "黃姿靜",
+          "is_alumni": false
+        },
+        {
+          "name": "梁詔鈞",
+          "is_alumni": true
+        },
+        {
+          "name": "張家彬",
+          "is_alumni": true
+        },
+        {
+          "name": "陳詠心",
+          "is_alumni": false
+        },
+        {
+          "name": "123",
+          "is_alumni": true
+        },
+        {
+          "name": "123",
+          "is_alumni": true
+        }
+      ]
+    },
+    {
+      "team_name": "新店膨魚晏",
+      "captain_name": "劉錫安",
+      "members": [
+        {
+          "name": "劉錫安",
+          "is_alumni": true
+        },
+        {
+          "name": "諸政豪",
+          "is_alumni": true
+        },
+        {
+          "name": "黃建宸",
+          "is_alumni": true
+        },
+        {
+          "name": "吳宜霖",
+          "is_alumni": false
+        },
+        {
+          "name": "林晏如",
+          "is_alumni": false
+        },
+        {
+          "name": "張詩筠",
+          "is_alumni": false
+        },
+        {
+          "name": "還沒確定",
+          "is_alumni": true
+        },
+        {
+          "name": "還沒確定",
+          "is_alumni": false
+        },
+        {
+          "name": "還沒確定",
+          "is_alumni": false
+        },
+        {
+          "name": "還沒確定",
+          "is_alumni": false
+        },
+        {
+          "name": "還沒確定",
+          "is_alumni": true
+        },
+        {
+          "name": "還沒確定",
+          "is_alumni": true
+        },
+        {
+          "name": "還沒確定",
+          "is_alumni": false
+        }
+      ]
+    },
+    {
+      "team_name": "17+",
+      "captain_name": "施中堂",
+      "members": [
+        {
+          "name": "施中堂",
+          "is_alumni": true
+        },
+        {
+          "name": "陳沅禾",
+          "is_alumni": true
+        },
+        {
+          "name": "王德翰",
+          "is_alumni": true
+        },
+        {
+          "name": "宋曼寧",
+          "is_alumni": true
+        },
+        {
+          "name": "宋曼甄",
+          "is_alumni": false
+        },
+        {
+          "name": "洪詩婷",
+          "is_alumni": true
+        },
+        {
+          "name": "吳珊菱",
+          "is_alumni": false
+        },
+        {
+          "name": "曾韻如",
+          "is_alumni": true
+        },
+        {
+          "name": "李佳鴻",
+          "is_alumni": false
+        },
+        {
+          "name": "想到再加",
+          "is_alumni": false
+        },
+        {
+          "name": "想到再加",
+          "is_alumni": false
+        },
+        {
+          "name": "17",
+          "is_alumni": false
+        },
+        {
+          "name": "17",
+          "is_alumni": false
+        }
       ]
     }
   ],
@@ -94,21 +366,33 @@
         "team_a": "1",
         "team_b": "2",
         "team_c": "3",
-        "matches": ["1 vs 2", "2 vs 3", "1 vs 3"]
+        "matches": [
+          "1 vs 2",
+          "2 vs 3",
+          "1 vs 3"
+        ]
       },
       {
         "name": "B 組循環",
         "team_a": "4",
         "team_b": "5",
         "team_c": "6",
-        "matches": ["4 vs 5", "5 vs 6", "4 vs 6"]
+        "matches": [
+          "4 vs 5",
+          "5 vs 6",
+          "4 vs 6"
+        ]
       },
       {
         "name": "C 組循環",
         "team_a": "7",
         "team_b": "8",
         "team_c": "9",
-        "matches": ["7 vs 8", "8 vs 9", "7 vs 9"]
+        "matches": [
+          "7 vs 8",
+          "8 vs 9",
+          "7 vs 9"
+        ]
       }
     ],
     "knockout": {
@@ -117,46 +401,191 @@
         {
           "name": "六強首輪",
           "games": [
-            { "label": "G1", "match": "S3 vs S6", "time": "13:00", "court": "場地 1" },
-            { "label": "G2", "match": "S4 vs S5", "time": "13:00", "court": "場地 2" }
+            {
+              "label": "G1",
+              "match": "S3 vs S6",
+              "time": "13:00",
+              "court": "場地 1"
+            },
+            {
+              "label": "G2",
+              "match": "S4 vs S5",
+              "time": "13:00",
+              "court": "場地 2"
+            }
           ]
         },
         {
           "name": "四強與排名",
           "games": [
-            { "label": "G3", "match": "S1 vs W1", "time": "14:00", "court": "場地 1" },
-            { "label": "G4", "match": "S2 vs W2", "time": "14:00", "court": "場地 2" },
-            { "label": "G5", "match": "L1 vs L2", "time": "14:00", "court": "場地 3" }
+            {
+              "label": "G3",
+              "match": "S1 vs W1",
+              "time": "14:00",
+              "court": "場地 1"
+            },
+            {
+              "label": "G4",
+              "match": "S2 vs W2",
+              "time": "14:00",
+              "court": "場地 2"
+            },
+            {
+              "label": "G5",
+              "match": "L1 vs L2",
+              "time": "14:00",
+              "court": "場地 3"
+            }
           ]
         },
         {
           "name": "最終名次",
           "games": [
-            { "label": "G6", "match": "W3 vs W4", "time": "15:00", "court": "場地 1", "tag": "冠軍賽" },
-            { "label": "G7", "match": "L3 vs L4", "time": "15:00", "court": "場地 2", "tag": "季軍賽" }
+            {
+              "label": "G6",
+              "match": "W3 vs W4",
+              "time": "15:00",
+              "court": "場地 1",
+              "tag": "冠軍賽"
+            },
+            {
+              "label": "G7",
+              "match": "L3 vs L4",
+              "time": "15:00",
+              "court": "場地 2",
+              "tag": "季軍賽"
+            }
           ]
         }
       ]
     },
     "matches": [
-      { "time": "09:00-10:00", "court": "場地 1", "stage": "預賽 A 組", "match": "1 vs 2", "referee": "3" },
-      { "time": "09:00-10:00", "court": "場地 2", "stage": "預賽 B 組", "match": "4 vs 5", "referee": "6" },
-      { "time": "09:00-10:00", "court": "場地 3", "stage": "預賽 C 組", "match": "7 vs 8", "referee": "9" },
-      { "time": "10:00-11:00", "court": "場地 1", "stage": "預賽 A 組", "match": "2 vs 3", "referee": "1" },
-      { "time": "10:00-11:00", "court": "場地 2", "stage": "預賽 B 組", "match": "5 vs 6", "referee": "4" },
-      { "time": "10:00-11:00", "court": "場地 3", "stage": "預賽 C 組", "match": "8 vs 9", "referee": "7" },
-      { "time": "11:00-12:00", "court": "場地 1", "stage": "預賽 A 組", "match": "1 vs 3", "referee": "2" },
-      { "time": "11:00-12:00", "court": "場地 2", "stage": "預賽 B 組", "match": "4 vs 6", "referee": "5" },
-      { "time": "11:00-12:00", "court": "場地 3", "stage": "預賽 C 組", "match": "7 vs 9", "referee": "8" },
-      { "time": "12:00-13:00", "court": "-", "stage": "中場整理", "match": "午休／預賽成績統計／六強種子排序", "referee": "-" },
-      { "time": "13:00-14:00", "court": "場地 1", "stage": "六強首輪", "match": "S3 vs S6", "referee": "T3A" },
-      { "time": "13:00-14:00", "court": "場地 2", "stage": "六強首輪", "match": "S4 vs S5", "referee": "T3B" },
-      { "time": "14:00-15:00", "court": "場地 1", "stage": "四強", "match": "S1 vs W1", "referee": "T3C" },
-      { "time": "14:00-15:00", "court": "場地 2", "stage": "四強", "match": "S2 vs W2", "referee": "T3A" },
-      { "time": "14:00-15:00", "court": "場地 3", "stage": "5/6 名", "match": "L1 vs L2", "referee": "T3B" },
-      { "time": "15:00-16:00", "court": "場地 1", "stage": "冠軍賽", "match": "W3 vs W4", "referee": "T3C" },
-      { "time": "15:00-16:00", "court": "場地 2", "stage": "季軍賽", "match": "L3 vs L4", "referee": "T3A" },
-      { "time": "16:00-17:00", "court": "-", "stage": "收尾", "match": "頒獎／場地整理／彈性補賽時段", "referee": "-" }
+      {
+        "time": "09:00-10:00",
+        "court": "場地 1",
+        "stage": "預賽 A 組",
+        "match": "1 vs 2",
+        "referee": "3"
+      },
+      {
+        "time": "09:00-10:00",
+        "court": "場地 2",
+        "stage": "預賽 B 組",
+        "match": "4 vs 5",
+        "referee": "6"
+      },
+      {
+        "time": "09:00-10:00",
+        "court": "場地 3",
+        "stage": "預賽 C 組",
+        "match": "7 vs 8",
+        "referee": "9"
+      },
+      {
+        "time": "10:00-11:00",
+        "court": "場地 1",
+        "stage": "預賽 A 組",
+        "match": "2 vs 3",
+        "referee": "1"
+      },
+      {
+        "time": "10:00-11:00",
+        "court": "場地 2",
+        "stage": "預賽 B 組",
+        "match": "5 vs 6",
+        "referee": "4"
+      },
+      {
+        "time": "10:00-11:00",
+        "court": "場地 3",
+        "stage": "預賽 C 組",
+        "match": "8 vs 9",
+        "referee": "7"
+      },
+      {
+        "time": "11:00-12:00",
+        "court": "場地 1",
+        "stage": "預賽 A 組",
+        "match": "1 vs 3",
+        "referee": "2"
+      },
+      {
+        "time": "11:00-12:00",
+        "court": "場地 2",
+        "stage": "預賽 B 組",
+        "match": "4 vs 6",
+        "referee": "5"
+      },
+      {
+        "time": "11:00-12:00",
+        "court": "場地 3",
+        "stage": "預賽 C 組",
+        "match": "7 vs 9",
+        "referee": "8"
+      },
+      {
+        "time": "12:00-13:00",
+        "court": "-",
+        "stage": "中場整理",
+        "match": "午休／預賽成績統計／六強種子排序",
+        "referee": "-"
+      },
+      {
+        "time": "13:00-14:00",
+        "court": "場地 1",
+        "stage": "六強首輪",
+        "match": "S3 vs S6",
+        "referee": "T3A"
+      },
+      {
+        "time": "13:00-14:00",
+        "court": "場地 2",
+        "stage": "六強首輪",
+        "match": "S4 vs S5",
+        "referee": "T3B"
+      },
+      {
+        "time": "14:00-15:00",
+        "court": "場地 1",
+        "stage": "四強",
+        "match": "S1 vs W1",
+        "referee": "T3C"
+      },
+      {
+        "time": "14:00-15:00",
+        "court": "場地 2",
+        "stage": "四強",
+        "match": "S2 vs W2",
+        "referee": "T3A"
+      },
+      {
+        "time": "14:00-15:00",
+        "court": "場地 3",
+        "stage": "5/6 名",
+        "match": "L1 vs L2",
+        "referee": "T3B"
+      },
+      {
+        "time": "15:00-16:00",
+        "court": "場地 1",
+        "stage": "冠軍賽",
+        "match": "W3 vs W4",
+        "referee": "T3C"
+      },
+      {
+        "time": "15:00-16:00",
+        "court": "場地 2",
+        "stage": "季軍賽",
+        "match": "L3 vs L4",
+        "referee": "T3A"
+      },
+      {
+        "time": "16:00-17:00",
+        "court": "-",
+        "stage": "收尾",
+        "match": "頒獎／場地整理／彈性補賽時段",
+        "referee": "-"
+      }
     ]
   }
 }
