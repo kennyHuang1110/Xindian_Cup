@@ -7,6 +7,20 @@ def test_health(client) -> None:
     assert response.json()["status"] == "ok"
 
 
+def test_security_headers_are_present(client) -> None:
+    response = client.get("/")
+    assert response.headers["Content-Security-Policy"].startswith("default-src 'self'")
+    assert response.headers["Permissions-Policy"]
+    assert response.headers["Referrer-Policy"] == "strict-origin-when-cross-origin"
+    assert response.headers["X-Content-Type-Options"] == "nosniff"
+    assert response.headers["X-Frame-Options"] == "DENY"
+    assert response.headers["X-XSS-Protection"] == "0"
+    assert response.headers["Cross-Origin-Opener-Policy"] == "same-origin"
+    assert response.headers["Cross-Origin-Resource-Policy"] == "same-origin"
+    assert response.headers["Cross-Origin-Embedder-Policy"] == "unsafe-none"
+    assert "Strict-Transport-Security" not in response.headers
+
+
 def test_public_pages_render(client) -> None:
     for path in ["/", "/public/teams", "/history/photos", "/charter", "/schedule"]:
         response = client.get(path)

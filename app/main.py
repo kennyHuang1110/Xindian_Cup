@@ -22,9 +22,49 @@ app = FastAPI(
     version="0.1.0",
 )
 
+SECURITY_HEADERS = {
+    "Content-Security-Policy": (
+        "default-src 'self'; "
+        "img-src 'self' data:; "
+        "style-src 'self' 'unsafe-inline'; "
+        "script-src 'self'; "
+        "font-src 'self' data:; "
+        "object-src 'none'; "
+        "base-uri 'self'; "
+        "form-action 'self'; "
+        "frame-ancestors 'none'"
+    ),
+    "Permissions-Policy": (
+        "accelerometer=(), autoplay=(), camera=(), display-capture=(), "
+        "fullscreen=(self), geolocation=(), gyroscope=(), magnetometer=(), "
+        "microphone=(), payment=(), usb=()"
+    ),
+    "Referrer-Policy": "strict-origin-when-cross-origin",
+    "X-Content-Type-Options": "nosniff",
+    "X-Frame-Options": "DENY",
+    "X-XSS-Protection": "0",
+    "Cross-Origin-Opener-Policy": "same-origin",
+    "Cross-Origin-Resource-Policy": "same-origin",
+    "Cross-Origin-Embedder-Policy": "unsafe-none",
+}
+
 app.mount("/static", StaticFiles(directory="app/static"), name="static")
 app.mount("/gallery", StaticFiles(directory="img"), name="gallery")
 templates = Jinja2Templates(directory="app/templates")
+
+
+@app.middleware("http")
+async def add_security_headers(request: Request, call_next):
+    """Apply a baseline set of security headers to every response."""
+    response = await call_next(request)
+
+    for header, value in SECURITY_HEADERS.items():
+        response.headers.setdefault(header, value)
+
+    if request.url.scheme == "https":
+        response.headers.setdefault("Strict-Transport-Security", "max-age=31536000; includeSubDomains; preload")
+
+    return response
 
 
 def build_schedule_columns(schedule: dict[str, object]) -> dict[str, object]:
