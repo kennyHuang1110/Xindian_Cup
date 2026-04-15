@@ -153,7 +153,7 @@
         },
         {
           "name": "阿邊",
-          "is_alumni": true
+          "is_alumni": false
         },
         {
           "name": "我晚點跟你說",
@@ -347,6 +347,64 @@
         },
         {
           "name": "17",
+          "is_alumni": false
+        }
+      ]
+    },
+    {
+      "team_name": "新店溪畔1.1",
+      "captain_name": "陳珖萭",
+      "members": [
+        {
+          "name": "陳珖萭",
+          "is_alumni": true
+        },
+        {
+          "name": "單大誠",
+          "is_alumni": true
+        },
+        {
+          "name": "劉采靈",
+          "is_alumni": true
+        },
+        {
+          "name": "胡孝新",
+          "is_alumni": true
+        },
+        {
+          "name": "褚凡瑋",
+          "is_alumni": true
+        },
+        {
+          "name": "沈容軒",
+          "is_alumni": true
+        },
+        {
+          "name": "王又禾",
+          "is_alumni": true
+        },
+        {
+          "name": "黃紹傑",
+          "is_alumni": true
+        },
+        {
+          "name": "李思諭",
+          "is_alumni": false
+        },
+        {
+          "name": "欣妤",
+          "is_alumni": false
+        },
+        {
+          "name": "劉錫忠",
+          "is_alumni": true
+        },
+        {
+          "name": "周莉雯",
+          "is_alumni": false
+        },
+        {
+          "name": "後補",
           "is_alumni": false
         }
       ]
