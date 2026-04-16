@@ -4,7 +4,7 @@
 
 {% block header_inner %}
 <h1>公告名單</h1>
-<p>以下顯示已完成報名的隊伍資料，僅提供隊名、隊長與隊員名單。</p>
+<p>本頁整理目前已報名隊伍的隊名、隊長與隊員名單，方便參賽者快速查閱最新資訊。</p>
 {% endblock %}
 
 {% block main %}
@@ -16,8 +16,8 @@
                 <section class="dimension-team-card">
                     <header class="dimension-team-header">
                         <div>
-                            <h3>{{ team.team_name }}</h3>
-                            <p>隊長：{{ team.captain_name }}</p>
+                            <h3>{{ team.name }}</h3>
+                            <p>隊長：{{ team.captain }}</p>
                         </div>
                     </header>
                     <div class="dimension-member-block">
@@ -34,7 +34,7 @@
             {% endfor %}
         </div>
     {% else %}
-        <p>目前尚未公告任何隊伍。</p>
+        <p>目前尚未公布隊伍名單。</p>
     {% endif %}
 </article>
 {% endblock %}
