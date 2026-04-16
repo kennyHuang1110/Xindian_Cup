@@ -4,8 +4,8 @@
   "hero_description": "整合公告名單、賽程表、歷屆照片與比賽章程，讓參賽者可以快速查看新店盃最新資訊。",
   "teams": [
     {
-      "team_name": "1",
-      "captain_name": "馮卓弋",
+      "name": "1",
+      "captain": "馮卓弋",
       "members": [
         {
           "name": "馮卓弋",
@@ -62,8 +62,8 @@
       ]
     },
     {
-      "team_name": "傻眼圈圈",
-      "captain_name": "祁櫂笎",
+      "name": "傻眼圈圈",
+      "captain": "祁櫂笎",
       "members": [
         {
           "name": "祁櫂笎",
@@ -120,8 +120,8 @@
       ]
     },
     {
-      "team_name": "我晚點再跟你說",
-      "captain_name": "徐婉婷",
+      "name": "我晚點再跟你說",
+      "captain": "徐婉婷",
       "members": [
         {
           "name": "徐婉婷",
@@ -178,8 +178,8 @@
       ]
     },
     {
-      "team_name": "HAVG",
-      "captain_name": "林修平",
+      "name": "HAVG",
+      "captain": "林修平",
       "members": [
         {
           "name": "林修平",
@@ -236,8 +236,8 @@
       ]
     },
     {
-      "team_name": "新店膨魚晏",
-      "captain_name": "劉錫安",
+      "name": "新店膨魚晏",
+      "captain": "劉錫安",
       "members": [
         {
           "name": "劉錫安",
@@ -294,8 +294,8 @@
       ]
     },
     {
-      "team_name": "17+",
-      "captain_name": "施中堂",
+      "name": "17+",
+      "captain": "施中堂",
       "members": [
         {
           "name": "施中堂",
@@ -352,8 +352,8 @@
       ]
     },
     {
-      "team_name": "新店溪畔1.1",
-      "captain_name": "陳珖萭",
+      "name": "新店溪畔1.1",
+      "captain": "陳珖萭",
       "members": [
         {
           "name": "陳珖萭",
@@ -406,6 +406,64 @@
         {
           "name": "後補",
           "is_alumni": false
+        }
+      ]
+    },
+    {
+      "name": "老馬一中",
+      "captain": "蘇宣豪",
+      "members": [
+        {
+          "name": "蘇宣豪",
+          "is_alumni": true
+        },
+        {
+          "name": "徐達希",
+          "is_alumni": true
+        },
+        {
+          "name": "徐培勳",
+          "is_alumni": true
+        },
+        {
+          "name": "徐羽彤",
+          "is_alumni": true
+        },
+        {
+          "name": "萬礎榮",
+          "is_alumni": true
+        },
+        {
+          "name": "陳昭榮",
+          "is_alumni": true
+        },
+        {
+          "name": "李雅婷",
+          "is_alumni": true
+        },
+        {
+          "name": "梁孝傑",
+          "is_alumni": true
+        },
+        {
+          "name": "徐魁谷",
+          "is_alumni": true
+        },
+        {
+          "name": "梁智華",
+          "is_alumni": false
+        },
+        {
+          "name": "補",
+          "is_alumni": true
+        },
+        {
+          "name": "補",
+          "is_alumni": true
+        },
+        {
+          "name": "補",
+          "is_alumni": true
         }
       ]
     }

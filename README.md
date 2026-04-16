@@ -120,5 +120,4 @@ app/
   main.py
 img/
 scripts/
-tests/
 ```
