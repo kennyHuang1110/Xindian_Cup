@@ -4,7 +4,7 @@
   "hero_description": "整合公告名單、賽程表、歷屆照片與比賽章程，讓參賽者可以快速查看新店盃最新資訊。",
   "teams": [
     {
-      "name": "1",
+      "name": "玻璃心又玻璃膝",
       "captain": "馮卓弋",
       "members": [
         {
@@ -12,52 +12,48 @@
           "is_alumni": true
         },
         {
-          "name": "1",
+          "name": "陳柏諺",
           "is_alumni": true
         },
         {
-          "name": "1",
+          "name": "唐翰霖",
           "is_alumni": true
         },
         {
-          "name": "1",
+          "name": "張尚橙",
           "is_alumni": true
         },
         {
-          "name": "1",
+          "name": "陳可軒",
           "is_alumni": true
         },
         {
-          "name": "1",
+          "name": "吳玟靜",
           "is_alumni": true
         },
         {
-          "name": "1",
+          "name": "蕭志晴",
           "is_alumni": true
         },
         {
-          "name": "1",
+          "name": "林秀俐",
           "is_alumni": true
         },
         {
-          "name": "1",
-          "is_alumni": true
+          "name": "鄭宇恩",
+          "is_alumni": false
         },
         {
-          "name": "1",
-          "is_alumni": true
+          "name": "李孟芸",
+          "is_alumni": false
         },
         {
-          "name": "1",
-          "is_alumni": true
+          "name": "葉芷妤",
+          "is_alumni": false
         },
         {
-          "name": "1",
-          "is_alumni": true
-        },
-        {
-          "name": "1",
-          "is_alumni": true
+          "name": "後續有補跟你說",
+          "is_alumni": false
         }
       ]
     },
