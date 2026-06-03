@@ -465,107 +465,101 @@
     }
   ],
   "schedule": {
-    "title": "比賽循環圖與賽程表",
-    "description": "依照 data 內的正式賽程更新，預賽為 ABC／DEF／GHI 三組單循環，各組取前 2 名晉級六強。",
+    "title": "8隊分組賽程與結果圖",
+    "description": "8隊分為 A、B 兩組各 4 隊，採小組單循環制。各組前 2 名晉級四強，進行冠軍、季軍決賽。",
     "format_notes": [
-      "預賽分成 A、B、C 三個三角循環，每組 3 隊單循環。",
-      "各組前 2 名晉級六強，依排序成為 S1 至 S6。",
-      "六強階段為首輪淘汰、四強、5/6 名賽、季軍賽與冠軍賽。"
+      "預賽分成 A、B 兩組各 4 隊單循環。",
+      "各組前 2 名晉級四強（A1 vs B2、B1 vs A2）。",
+      "同時進行 5/6 名（A3 vs B3）與 7/8 名（A4 vs B4）排位賽。",
+      "16:00 前完成預賽+四強，15:40～16:30 進行決賽。"
     ],
-    "triangles": [
+    "groups": [
       {
         "name": "A 組循環",
-        "team_a": "1",
-        "team_b": "2",
-        "team_c": "3",
+        "teams": [
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
         "matches": [
           "1 vs 2",
-          "2 vs 3",
-          "1 vs 3"
+          "3 vs 4",
+          "1 vs 3",
+          "2 vs 4",
+          "1 vs 4",
+          "2 vs 3"
         ]
       },
       {
         "name": "B 組循環",
-        "team_a": "4",
-        "team_b": "5",
-        "team_c": "6",
+        "teams": [
+          "5",
+          "6",
+          "7",
+          "8"
+        ],
         "matches": [
-          "4 vs 5",
           "5 vs 6",
-          "4 vs 6"
-        ]
-      },
-      {
-        "name": "C 組循環",
-        "team_a": "7",
-        "team_b": "8",
-        "team_c": "9",
-        "matches": [
           "7 vs 8",
-          "8 vs 9",
-          "7 vs 9"
+          "5 vs 7",
+          "6 vs 8",
+          "5 vs 8",
+          "6 vs 7"
         ]
       }
     ],
     "knockout": {
-      "title": "六強賽製圖",
+      "title": "四強賽制圖",
       "rounds": [
         {
-          "name": "六強首輪",
+          "name": "四強賽",
           "games": [
             {
-              "label": "G1",
-              "match": "S3 vs S6",
-              "time": "13:00",
+              "label": "SF1",
+              "match": "A1 vs B2",
+              "time": "14:00-14:50",
               "court": "場地 1"
             },
             {
-              "label": "G2",
-              "match": "S4 vs S5",
-              "time": "13:00",
+              "label": "SF2",
+              "match": "B1 vs A2",
+              "time": "14:00-14:50",
               "court": "場地 2"
             }
           ]
         },
         {
-          "name": "四強與排名",
+          "name": "排名賽",
           "games": [
             {
-              "label": "G3",
-              "match": "S1 vs W1",
-              "time": "14:00",
+              "label": "5/6名",
+              "match": "A3 vs B3",
+              "time": "14:50-15:40",
               "court": "場地 1"
             },
             {
-              "label": "G4",
-              "match": "S2 vs W2",
-              "time": "14:00",
+              "label": "7/8名",
+              "match": "A4 vs B4",
+              "time": "14:50-15:40",
               "court": "場地 2"
+            }
+          ]
+        },
+        {
+          "name": "決賽",
+          "games": [
+            {
+              "label": "冠軍賽",
+              "match": "W1 vs W2",
+              "time": "15:40-16:30",
+              "court": "場地 1"
             },
             {
-              "label": "G5",
+              "label": "季軍賽",
               "match": "L1 vs L2",
-              "time": "14:00",
-              "court": "場地 3"
-            }
-          ]
-        },
-        {
-          "name": "最終名次",
-          "games": [
-            {
-              "label": "G6",
-              "match": "W3 vs W4",
-              "time": "15:00",
-              "court": "場地 1",
-              "tag": "冠軍賽"
-            },
-            {
-              "label": "G7",
-              "match": "L3 vs L4",
-              "time": "15:00",
-              "court": "場地 2",
-              "tag": "季軍賽"
+              "time": "15:40-16:30",
+              "court": "場地 2"
             }
           ]
         }
@@ -573,130 +567,112 @@
     },
     "matches": [
       {
-        "time": "09:00-10:00",
+        "time": "09:00-09:50",
         "court": "場地 1",
-        "stage": "預賽 A 組",
-        "match": "1 vs 2",
+        "match": "A組 1 vs 2",
         "referee": "3"
       },
       {
-        "time": "09:00-10:00",
+        "time": "09:00-09:50",
         "court": "場地 2",
-        "stage": "預賽 B 組",
-        "match": "4 vs 5",
-        "referee": "6"
-      },
-      {
-        "time": "09:00-10:00",
-        "court": "場地 3",
-        "stage": "預賽 C 組",
-        "match": "7 vs 8",
-        "referee": "9"
-      },
-      {
-        "time": "10:00-11:00",
-        "court": "場地 1",
-        "stage": "預賽 A 組",
-        "match": "2 vs 3",
-        "referee": "1"
-      },
-      {
-        "time": "10:00-11:00",
-        "court": "場地 2",
-        "stage": "預賽 B 組",
-        "match": "5 vs 6",
-        "referee": "4"
-      },
-      {
-        "time": "10:00-11:00",
-        "court": "場地 3",
-        "stage": "預賽 C 組",
-        "match": "8 vs 9",
+        "match": "B組 5 vs 6",
         "referee": "7"
       },
       {
-        "time": "11:00-12:00",
+        "time": "09:50-10:40",
         "court": "場地 1",
-        "stage": "預賽 A 組",
-        "match": "1 vs 3",
-        "referee": "2"
+        "match": "A組 3 vs 4",
+        "referee": "1"
       },
       {
-        "time": "11:00-12:00",
+        "time": "09:50-10:40",
         "court": "場地 2",
-        "stage": "預賽 B 組",
-        "match": "4 vs 6",
+        "match": "B組 7 vs 8",
         "referee": "5"
       },
       {
-        "time": "11:00-12:00",
-        "court": "場地 3",
-        "stage": "預賽 C 組",
-        "match": "7 vs 9",
+        "time": "10:40-11:30",
+        "court": "場地 1",
+        "match": "A組 1 vs 3",
+        "referee": "4"
+      },
+      {
+        "time": "10:40-11:30",
+        "court": "場地 2",
+        "match": "B組 5 vs 7",
         "referee": "8"
       },
       {
-        "time": "12:00-13:00",
-        "court": "-",
-        "stage": "中場整理",
-        "match": "午休／預賽成績統計／六強種子排序",
-        "referee": "-"
-      },
-      {
-        "time": "13:00-14:00",
+        "time": "11:30-12:20",
         "court": "場地 1",
-        "stage": "六強首輪",
-        "match": "S3 vs S6",
-        "referee": "T3A"
+        "match": "A組 2 vs 4",
+        "referee": "1"
       },
       {
-        "time": "13:00-14:00",
+        "time": "11:30-12:20",
         "court": "場地 2",
-        "stage": "六強首輪",
-        "match": "S4 vs S5",
-        "referee": "T3B"
+        "match": "B組 6 vs 8",
+        "referee": "5"
       },
       {
-        "time": "14:00-15:00",
+        "time": "12:20-13:10",
         "court": "場地 1",
-        "stage": "四強",
-        "match": "S1 vs W1",
-        "referee": "T3C"
+        "match": "A組 1 vs 4",
+        "referee": "2"
       },
       {
-        "time": "14:00-15:00",
+        "time": "12:20-13:10",
         "court": "場地 2",
-        "stage": "四強",
-        "match": "S2 vs W2",
-        "referee": "T3A"
+        "match": "B組 5 vs 8",
+        "referee": "6"
       },
       {
-        "time": "14:00-15:00",
-        "court": "場地 3",
-        "stage": "5/6 名",
-        "match": "L1 vs L2",
-        "referee": "T3B"
-      },
-      {
-        "time": "15:00-16:00",
+        "time": "13:10-14:00",
         "court": "場地 1",
-        "stage": "冠軍賽",
-        "match": "W3 vs W4",
-        "referee": "T3C"
+        "match": "A組 2 vs 3",
+        "referee": "4"
       },
       {
-        "time": "15:00-16:00",
+        "time": "13:10-14:00",
         "court": "場地 2",
-        "stage": "季軍賽",
-        "match": "L3 vs L4",
-        "referee": "T3A"
+        "match": "B組 6 vs 7",
+        "referee": "8"
       },
       {
-        "time": "16:00-17:00",
-        "court": "-",
-        "stage": "收尾",
-        "match": "頒獎／場地整理／彈性補賽時段",
-        "referee": "-"
+        "time": "14:00-14:50",
+        "court": "場地 1",
+        "match": "四強 A1 vs B2",
+        "referee": "A3"
+      },
+      {
+        "time": "14:00-14:50",
+        "court": "場地 2",
+        "match": "四強 B1 vs A2",
+        "referee": "B3"
+      },
+      {
+        "time": "14:50-15:40",
+        "court": "場地 1",
+        "match": "5/6名 A3 vs B3",
+        "referee": "SF1敗隊"
+      },
+      {
+        "time": "14:50-15:40",
+        "court": "場地 2",
+        "match": "7/8名 A4 vs B4",
+        "referee": "SF2敗隊"
+      },
+      {
+        "time": "15:40-16:30",
+        "court": "場地 1",
+        "match": "冠軍賽 W1 vs W2",
+        "referee": "第6名"
+      },
+      {
+        "time": "15:40-16:30",
+        "court": "場地 2",
+        "match": "季軍賽 L1 vs L2",
+        "referee": "第8名"
       }
     ]
   }

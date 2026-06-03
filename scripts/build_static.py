@@ -46,8 +46,8 @@ def load_json() -> dict[str, Any]:
 
 
 def build_schedule_columns(schedule: dict[str, Any]) -> dict[str, Any]:
-    """Build a three-court schedule matrix for template rendering."""
-    courts = ["場地 1", "場地 2", "場地 3"]
+    """Build a two-court schedule matrix for template rendering."""
+    courts = ["場地 1", "場地 2"]
     rows: list[dict[str, Any]] = []
     time_slots: dict[str, dict[str, Any]] = {}
     notes: list[dict[str, Any]] = []

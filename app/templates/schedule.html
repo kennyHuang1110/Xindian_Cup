@@ -10,44 +10,42 @@
 {% block main %}
 <article id="schedule" class="active article-static article-wide">
     <section class="dimension-schedule-section">
-        <h2 class="major">三組循環圖</h2>
-        <p class="dimension-schedule-lead">預賽採三個三角循環，各組 3 隊單循環，依正式賽程表進行。</p>
+        <h2 class="major">兩組循環圖</h2>
+        <p class="dimension-schedule-lead">預賽採兩組循環，各組 4 隊單循環，各組前 2 名晉級四強。</p>
         <div class="dimension-format-notes">
             {% for note in schedule.format_notes %}
                 <span>{{ note }}</span>
             {% endfor %}
         </div>
         <div class="dimension-triangle-grid">
-            {% for triangle in schedule.triangles %}
+            {% for group in schedule.groups %}
                 <section class="dimension-triangle-card">
                     <header>
-                        <h3>{{ triangle.name }}</h3>
+                        <h3>{{ group.name }}</h3>
                     </header>
-                    <div class="dimension-triangle-stage">
-                        <div class="triangle-edge triangle-edge-left"></div>
-                        <div class="triangle-edge triangle-edge-right"></div>
-                        <div class="triangle-edge triangle-edge-bottom"></div>
-                        <div class="triangle-node triangle-node-top">{{ triangle.team_a }}</div>
-                        <div class="triangle-node triangle-node-left">{{ triangle.team_b }}</div>
-                        <div class="triangle-node triangle-node-right">{{ triangle.team_c }}</div>
-                    </div>
                     <ul class="dimension-triangle-matches">
-                        {% for match in triangle.matches %}
+                        {% for match in group.matches %}
                             <li>{{ match }}</li>
                         {% endfor %}
                     </ul>
                 </section>
             {% endfor %}
         </div>
+        <figure class="dimension-knockout-figure">
+            <div class="dimension-knockout-image-wrap">
+                <img src="{{ url_for('gallery', path='group.png') }}" alt="小組循環賽制圖" class="dimension-knockout-image" />
+            </div>
+            <figcaption>小組循環賽制圖，各組採交叉循環制，依正式賽程表進行。</figcaption>
+        </figure>
     </section>
 
     <section class="dimension-schedule-section">
         <h2 class="major">{{ schedule.knockout.title }}</h2>
         <figure class="dimension-knockout-figure">
             <div class="dimension-knockout-image-wrap">
-                <img src="{{ url_for('gallery', path='six.png') }}" alt="六強賽程圖" class="dimension-knockout-image" />
+                <img src="{{ url_for('gallery', path='semi.png') }}" alt="四強賽程圖" class="dimension-knockout-image" />
             </div>
-            <figcaption>六強賽程圖以你提供的圖檔呈現，實際時間與場地安排以下方賽程表為準。</figcaption>
+            <figcaption>四強賽程圖以你提供的圖檔呈現，實際時間與場地安排以下方賽程表為準。</figcaption>
         </figure>
     </section>
 
